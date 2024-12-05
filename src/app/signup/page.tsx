@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Page() {
   const [firstNameValue, setFirstNameValue] = useState<string>("");
@@ -149,13 +150,16 @@ export default function Page() {
             <div className="text-red-600">Password hooson baina</div>
           )}
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex-col gap-[40px]">
           <Button
             onClick={signupButtonClicked}
             className="bg-sky-700 font-bold w-[270px] h-[32px]"
           >
             Sign up
           </Button>
+          <div className="font-bold w-[270px] text-center text-gray-400 text-[16px]">
+          Have an account? <Link href="http://localhost:3000/login" className="text-blue-600">Log in</Link>
+          </div>
         </CardFooter>
       </Card>
     </div>
