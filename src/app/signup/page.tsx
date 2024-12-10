@@ -95,10 +95,10 @@ export default function Page() {
   };
 
   return (
-    <div className="w-[390px] h-screen bg-black flex justify-center items-center">
-      <Card className="w-[320px] h-[443px] flex-row bg-black border-none">
+    <div className=" h-screen bg-black flex justify-center items-center">
+      <Card className="  flex-row bg-black border-none">
         <CardHeader>
-          <CardTitle className="flex w-[270px] text-white justify-center text-[30px]">
+          <CardTitle className="flex  text-white justify-center text-[30px]">
             Instagram
           </CardTitle>
           <CardDescription className=" font-bold w-[270px] text-center text-gray-400 text-[16px]">
@@ -107,7 +107,7 @@ export default function Page() {
         </CardHeader>
         <CardContent className="space-y-3">
           <Input
-            className="w-[270px] h-[36px] border-zinc-700 text-white rounded-[5px] bg-zinc-900"
+            className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
             placeholder="FirstName"
             value={firstNameValue}
             onChange={HandleFirstName}
@@ -116,7 +116,7 @@ export default function Page() {
             <div className="text-red-600">FirstName hooson baina</div>
           )}
           <Input
-            className="w-[270px] h-[36px] border-zinc-700 text-white rounded-[5px] bg-zinc-900"
+            className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
             placeholder="LastName"
             value={lastNameValue}
             onChange={HandleLastName}
@@ -125,7 +125,7 @@ export default function Page() {
             <div className="text-red-600">Lastname hooson baina</div>
           )}
           <Input
-            className="w-[270px] h-[36px] border-zinc-700 text-white rounded-[5px] bg-zinc-900"
+            className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
             placeholder="Username"
             value={userNameValue}
             onChange={HandleUserName}
@@ -134,14 +134,14 @@ export default function Page() {
             <div className="text-red-600">UserName hooson baina</div>
           )}
           <Input
-            className="w-[270px] h-[36px] border-zinc-700 text-white rounded-[5px] bg-zinc-900"
+            className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
             placeholder="Email"
             value={emailValue}
             onChange={HandleEmail}
           />
           {emailError && <div className="text-red-600">Email hooson baina</div>}
           <Input
-            className="w-[270px] h-[36px] border-zinc-700 text-white rounded-[5px] bg-zinc-900"
+            className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
             placeholder="Password"
             value={passwordValue}
             onChange={HandlePassword}
@@ -157,8 +157,11 @@ export default function Page() {
           >
             Sign up
           </Button>
-          <div className="font-bold w-[270px] text-center text-gray-400 text-[16px]">
-          Have an account? <Link href="http://localhost:3000/login" className="text-blue-600">Log in</Link>
+          <div className="font-bold text-center text-gray-400 text-[16px]">
+            Have an account?{" "}
+            <Link href="http://localhost:3000/login" className="text-blue-600">
+              Log in
+            </Link>
           </div>
         </CardFooter>
       </Card>

@@ -40,7 +40,6 @@ const Page = () => {
     );
     const data = await dataJson.json();
     setPosts(data);
-    console.log(data);
   };
   useEffect(() => {
     getPostsData();
@@ -86,9 +85,6 @@ const Page = () => {
                 <Bookmark />
               </div>
               <div className="font-bold text-white">548 likes</div>
-              {/* <div className="text-[20px] text-white font-sans">
-                {post.caption}
-              </div> */}
               <div>
                 {post.comments.slice(0, 2).map((comment) => {
                   return (
@@ -105,17 +101,23 @@ const Page = () => {
                     </div>
                   );
                 })}
-                <Link
-                  href="http://localhost:3000/comments"
-                  className="text-gray-500"
-                >
-                  View all comments
-                </Link>
+                {post.comments.length > 0 && (
+                  <Link
+                    href={`http://localhost:3000/posts/comments/${post._id}`}
+                    className="text-gray-500"
+                  >
+                    View all comments
+                  </Link>
+                )}
               </div>
             </CardFooter>
           </Card>
         );
       })}
+      <div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   );
 };
