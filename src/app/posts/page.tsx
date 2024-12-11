@@ -1,7 +1,14 @@
 "use client";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bookmark, Heart, MessageCircle, Send } from "lucide-react";
+import {
+  Bookmark,
+  Heart,
+  MessageCircle,
+  Send,
+  Search,
+  House,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Carousel,
@@ -45,7 +52,7 @@ const Page = () => {
     getPostsData();
   }, []);
   return (
-    <div className="bg-black h-max flex-col justify-items-center items-center">
+    <div className="bg-black h-max flex-col justify-items-center items-center relative">
       <h1 className=" text-[40px] text-white font-sans pt-6 p-6">Instagram</h1>
       {posts?.map((post, index) => {
         return (
@@ -114,9 +121,13 @@ const Page = () => {
           </Card>
         );
       })}
-      <div>
-        <div></div>
-        <div></div>
+      <div className="fixed bottom-0 left-0 w-screen flex h-10 border-gray-800 z-999">
+        <div className="w-[50%] bg-black flex justify-center">
+          <Search className="text-white h-full" />
+        </div>
+        <div className="w-[50%] bg-black flex justify-center">
+          <House className="text-white h-full"/>
+        </div>
       </div>
     </div>
   );
