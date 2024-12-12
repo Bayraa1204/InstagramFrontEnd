@@ -10,12 +10,14 @@ import {
   House,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
 import Link from "next/link";
+import { link } from "fs";
 type userType = {
   _id: string;
   username: string;
@@ -84,12 +86,20 @@ const Page = () => {
             </CardContent>
             <CardFooter className="flex-col items-start gap-2">
               <div className="flex justify-between w-full text-white">
-                <div className="h-[20px] flex gap-2 text-white">
-                  <Heart />
-                  <MessageCircle />
-                  <Send />
+                <div className="h-[30px] flex gap-2 text-white">
+                  <Button className="w-[30px] h-[30px] bg-black">
+                    <Heart />
+                  </Button>
+                  <Button className="w-[30px] h-[30px] bg-black">
+                    <MessageCircle />
+                  </Button>
+                  <Button className="w-[30px] h-[30px] bg-black">
+                    <Send />
+                  </Button>
                 </div>
-                <Bookmark />
+                <Button className="w-[30px] h-[30px] bg-black">
+                  <Bookmark />
+                </Button>
               </div>
               <div className="font-bold text-white">548 likes</div>
               <div>
@@ -122,12 +132,15 @@ const Page = () => {
         );
       })}
       <div className="fixed bottom-0 left-0 w-screen flex h-10 border-gray-800 z-999">
-        <div className="w-[50%] bg-black flex justify-center">
+        <Link href="http://localhost:3000/posts/search" className="w-[50%] bg-black flex justify-center h-full rounded-none">
           <Search className="text-white h-full" />
-        </div>
-        <div className="w-[50%] bg-black flex justify-center">
-          <House className="text-white h-full"/>
-        </div>
+        </Link>
+        <Link
+          href="http://localhost:3000/posts"
+          className="w-[50%] bg-black flex justify-center h-full rounded-none"
+        >
+          <House className="text-white h-full" />
+        </Link>
       </div>
     </div>
   );
