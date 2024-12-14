@@ -14,32 +14,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 
 export default function Page() {
-  const [userNameValue, setUserNameValue] = useState<string>("");
+  const [emailValue, setEmailValue] = useState<string>("");
   const [passwordValue, setPasswordValue] = useState<string>("");
-  const [userNameError, setUserNameError] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
 
   const [passwordType, setPasswordType] = useState<string>("password");
 
-  const [userData, setUserData] = useState([]);
-
-  const getUsersData = async () => {
-    const dataJson = await fetch(
-      "https://instagram-1-5x7q.onrender.com/getUsers",
-      {
-        method: "GET",
-      }
-    );
-    const data = await dataJson.json();
-    setUserData(data);
-    console.log(data);
-  };
-  useEffect(() => {
-    getUsersData();
-  }, []);
-
   const HandleUserName = (e: { target: { value: string } }) => {
-    setUserNameValue(e.target.value);
+    setEmailValue(e.target.value);
   };
   const HandlePassword = (e: { target: { value: string } }) => {
     setPasswordValue(e.target.value);
@@ -48,15 +31,12 @@ export default function Page() {
   const loginButtonClicked = () => {
     checkUserName();
     checkPassword();
-    if (!userNameError || !passwordError) {
-      userData;
-    }
   };
   const checkUserName = () => {
-    if (userNameValue.length == 0 || userNameValue.includes(" ")) {
-      setUserNameError(true);
+    if (emailValue.length == 0 || emailValue.includes(" ")) {
+      setEmailError(true);
     } else {
-      setUserNameError(false);
+      setEmailError(false);
     }
   };
   const checkPassword = () => {
@@ -88,12 +68,12 @@ export default function Page() {
         <CardContent className="space-y-3">
           <Input
             className="w-[270px] h-[36px] border-zinc-700 text-white rounded-[5px] bg-zinc-900"
-            placeholder="Username"
-            value={userNameValue}
+            placeholder="Email"
+            value={emailValue}
             onChange={HandleUserName}
           />
-          {userNameError && (
-            <div className="text-red-600">UserName hooson baina</div>
+          {emailError && (
+            <div className="text-red-600">Email hooson baina.</div>
           )}
           <div className="flex">
             <Input
@@ -105,11 +85,11 @@ export default function Page() {
             />
             <Checkbox
               onClick={checkBox}
-              className="w-[36px] h-[36px] bg-zinc-700"
+              className="w-[36px] h-[36px] bg-blue-500"
             />
           </div>
           {passwordError && (
-            <div className="text-red-600">Password hooson baina</div>
+            <div className="text-red-600">Password hooson baina.</div>
           )}
         </CardContent>
         <CardFooter className="flex-col gap-[40px]">

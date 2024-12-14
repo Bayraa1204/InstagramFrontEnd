@@ -13,26 +13,16 @@ import { useState } from "react";
 import Link from "next/link";
 
 export default function Page() {
-  const [firstNameValue, setFirstNameValue] = useState<string>("");
-  const [lastNameValue, setLastNameValue] = useState<string>("");
   const [userNameValue, setUserNameValue] = useState<string>("");
   const [emailValue, setEmailValue] = useState<string>("");
   const [passwordValue, setPasswordValue] = useState<string>("");
 
-  const [firstNameError, setFirstNameError] = useState<boolean>(false);
-  const [lastNameError, setLastNameError] = useState<boolean>(false);
   const [userNameError, setUserNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
 
   let [count, setCount] = useState<number>(0);
 
-  const HandleFirstName = (e: { target: { value: string } }) => {
-    setFirstNameValue(e.target.value);
-  };
-  const HandleLastName = (e: { target: { value: string } }) => {
-    setLastNameValue(e.target.value);
-  };
   const HandleUserName = (e: { target: { value: string } }) => {
     setUserNameValue(e.target.value);
   };
@@ -44,26 +34,28 @@ export default function Page() {
   };
 
   const signupButtonClicked = () => {
-    checkFirstName();
-    checkLastName();
     checkUserName();
     checkEmail();
     checkPassword();
-  };
-  const checkFirstName = () => {
-    if (firstNameValue.length == 0 || firstNameValue.includes(" ")) {
-      setFirstNameError(true);
-    } else {
-      setCount(count + 1);
-      setFirstNameError(false);
-    }
-  };
-  const checkLastName = () => {
-    if (lastNameValue.length == 0 || lastNameValue.includes(" ")) {
-      setLastNameError(true);
-    } else {
-      setCount(count + 1);
-      setLastNameError(false);
+    if (!userNameError && !emailError && !passwordError) {
+      fetch(`https://instagram-1-5x7q.onrender.com/signUp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: userNameValue,
+          password: passwordValue,
+          email: emailValue,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setEmailValue("");
+          setPasswordValue("");
+          setUserNameValue("");
+          const access = data.token;
+          localStorage.setItem("accessToken", access);
+        })
+        .then(() => (window.location.href = "/posts"));
     }
   };
   const checkUserName = () => {
@@ -108,30 +100,12 @@ export default function Page() {
         <CardContent className="space-y-3">
           <Input
             className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
-            placeholder="FirstName"
-            value={firstNameValue}
-            onChange={HandleFirstName}
-          />
-          {firstNameError && (
-            <div className="text-red-600">FirstName hooson baina</div>
-          )}
-          <Input
-            className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
-            placeholder="LastName"
-            value={lastNameValue}
-            onChange={HandleLastName}
-          />
-          {lastNameError && (
-            <div className="text-red-600">Lastname hooson baina</div>
-          )}
-          <Input
-            className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
             placeholder="Username"
             value={userNameValue}
             onChange={HandleUserName}
           />
           {userNameError && (
-            <div className="text-red-600">UserName hooson baina</div>
+            <div className="text-red-600">Username hooson baina.</div>
           )}
           <Input
             className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
@@ -139,7 +113,9 @@ export default function Page() {
             value={emailValue}
             onChange={HandleEmail}
           />
-          {emailError && <div className="text-red-600">Email hooson baina</div>}
+          {emailError && (
+            <div className="text-red-600">Email hooson baina.</div>
+          )}
           <Input
             className=" border-zinc-700 text-white rounded-[5px] bg-zinc-900"
             placeholder="Password"
@@ -147,7 +123,7 @@ export default function Page() {
             onChange={HandlePassword}
           />
           {passwordError && (
-            <div className="text-red-600">Password hooson baina</div>
+            <div className="text-red-600">Password hooson baina.</div>
           )}
         </CardContent>
         <CardFooter className="flex-col gap-[40px]">

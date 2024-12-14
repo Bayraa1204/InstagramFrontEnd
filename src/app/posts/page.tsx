@@ -17,7 +17,6 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Link from "next/link";
-import { link } from "fs";
 type userType = {
   _id: string;
   username: string;
@@ -39,18 +38,28 @@ type postType = {
 }[];
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
+  const token = localStorage.getItem("accessToken");
 
   const getPostsData = async () => {
     const dataJson = await fetch(
       "https://instagram-1-5x7q.onrender.com/getPost",
       {
-        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       }
     );
     const data = await dataJson.json();
     setPosts(data);
   };
+  const checkToken = () => {
+    if (!token) {
+      window.location.href = "/login";
+    }
+  };
   useEffect(() => {
+    checkToken();
     getPostsData();
   }, []);
   return (
@@ -132,7 +141,10 @@ const Page = () => {
         );
       })}
       <div className="fixed bottom-0 left-0 w-screen flex h-10 border-gray-800 z-999">
-        <Link href="http://localhost:3000/posts/search" className="w-[50%] bg-black flex justify-center h-full rounded-none">
+        <Link
+          href="http://localhost:3000/posts/search"
+          className="w-[50%] bg-black flex justify-center h-full rounded-none"
+        >
           <Search className="text-white h-full" />
         </Link>
         <Link
