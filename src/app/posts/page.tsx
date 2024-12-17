@@ -10,13 +10,19 @@ import {
   House,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
 import Link from "next/link";
+import SeeLikedPeoples from "@/components/seeLikedPeoples";
+type likeType = {
+  _id: string;
+  profileImg: string;
+  username: string;
+  email: string;
+};
 type userType = {
   _id: string;
   username: string;
@@ -33,14 +39,18 @@ type postType = {
   caption: string;
   postImg: string;
   userId: userType;
-  like: string;
+  like: likeType[];
   comments: commentType;
 }[];
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
-  const token = localStorage.getItem("accessToken");
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   const getPostsData = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      window.location.href = "/login";
+    }
     const dataJson = await fetch(
       "https://instagram-1-5x7q.onrender.com/getPost",
       {
@@ -53,13 +63,24 @@ const Page = () => {
     const data = await dataJson.json();
     setPosts(data);
   };
-  const checkToken = () => {
-    if (!token) {
-      window.location.href = "/login";
+  const HandleLike = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const token = localStorage.getItem("accessToken");
+    if (isLiked) {
+      setIsLiked(false);
+    } else {
+      setIsLiked(true);
+      fetch("https://instagram-1-5x7q.onrender.com/likePost", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: token,
+        }),
+      });
     }
   };
+
   useEffect(() => {
-    checkToken();
     getPostsData();
   }, []);
   return (
@@ -96,21 +117,25 @@ const Page = () => {
             <CardFooter className="flex-col items-start gap-2">
               <div className="flex justify-between w-full text-white">
                 <div className="h-[30px] flex gap-2 text-white">
-                  <Button className="w-[30px] h-[30px] bg-black">
-                    <Heart />
-                  </Button>
-                  <Button className="w-[30px] h-[30px] bg-black">
+                  <button onClick={HandleLike}>
+                    {isLiked ? (
+                      <Heart fill="red" className="text-red-600" />
+                    ) : (
+                      <Heart fill="black" />
+                    )}
+                  </button>
+                  <button>
                     <MessageCircle />
-                  </Button>
-                  <Button className="w-[30px] h-[30px] bg-black">
+                  </button>
+                  <button>
                     <Send />
-                  </Button>
+                  </button>
                 </div>
-                <Button className="w-[30px] h-[30px] bg-black">
+                <button>
                   <Bookmark />
-                </Button>
+                </button>
               </div>
-              <div className="font-bold text-white">548 likes</div>
+              <SeeLikedPeoples likedPeopleData={post.like} />
               <div>
                 {post.comments.slice(0, 2).map((comment) => {
                   return (
