@@ -16,7 +16,10 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Link from "next/link";
-import SeeLikedPeoples from "@/components/seeLikedPeoples";
+import IsLiked from "@/custom-components/isLikedHeartRed";
+import SeeLikedPeoples from "@/custom-components/seeLikedPeoples";
+import PostReactions from "@/custom-components/PostReactions";
+import PostCommentSection from "@/custom-components/PostCommentSection";
 type likeType = {
   _id: string;
   profileImg: string;
@@ -44,7 +47,6 @@ type postType = {
 }[];
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   const getPostsData = async () => {
     const token = localStorage.getItem("accessToken");
@@ -62,22 +64,6 @@ const Page = () => {
     );
     const data = await dataJson.json();
     setPosts(data);
-  };
-  const HandleLike = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const token = localStorage.getItem("accessToken");
-    if (isLiked) {
-      setIsLiked(false);
-    } else {
-      setIsLiked(true);
-      fetch("https://instagram-1-5x7q.onrender.com/likePost", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: token,
-        }),
-      });
-    }
   };
 
   useEffect(() => {
@@ -103,69 +89,25 @@ const Page = () => {
               <Carousel>
                 <CarouselContent>
                   <CarouselItem className="flex justify-center w=[340px] h-[340px]">
-                    <img className="" src={post.postImg} />
+                    <img src={post.postImg} />
                   </CarouselItem>
                   <CarouselItem className="flex justify-center w=[340px] h-[340px]">
-                    <img className="" src={post.postImg} />
-                  </CarouselItem>
-                  <CarouselItem className="flex justify-center w=[340px] h-[340px]">
-                    <img className=" " src={post.postImg} />
+                    <img src={post.postImg} />
                   </CarouselItem>
                 </CarouselContent>
               </Carousel>
             </CardContent>
             <CardFooter className="flex-col items-start gap-2">
-              <div className="flex justify-between w-full text-white">
-                <div className="h-[30px] flex gap-2 text-white">
-                  <button onClick={HandleLike}>
-                    {isLiked ? (
-                      <Heart fill="red" className="text-red-600" />
-                    ) : (
-                      <Heart fill="black" />
-                    )}
-                  </button>
-                  <button>
-                    <MessageCircle />
-                  </button>
-                  <button>
-                    <Send />
-                  </button>
-                </div>
-                <button>
-                  <Bookmark />
-                </button>
-              </div>
-              <SeeLikedPeoples likedPeopleData={post.like} />
-              <div>
-                {post.comments.slice(0, 2).map((comment) => {
-                  return (
-                    <div
-                      key={comment._id}
-                      className="flex items-center gap-2 mb-3 text-white"
-                    >
-                      <Avatar className="w-[20px] h-[20px]">
-                        <AvatarImage src={comment.userId.profileImg} />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <div className="font-bold">{comment.userId.username}</div>
-                      <div>{comment.comment}</div>
-                    </div>
-                  );
-                })}
-                {post.comments.length > 0 && (
-                  <Link
-                    href={`http://localhost:3000/posts/comments/${post._id}`}
-                    className="text-gray-500"
-                  >
-                    View all comments
-                  </Link>
-                )}
-              </div>
+              <PostReactions postLike={post.like} postId={post._id} />
+              <PostCommentSection
+                postComments={post.comments}
+                postId={post._id}
+              />
             </CardFooter>
           </Card>
         );
       })}
-      <div className="fixed bottom-0 left-0 w-screen flex h-10 border-gray-800 z-999">
+      <div className=" flex fixed bottom-0 w-screen h-10 border-gray-800">
         <Link
           href="http://localhost:3000/posts/search"
           className="w-[50%] bg-black flex justify-center h-full rounded-none"

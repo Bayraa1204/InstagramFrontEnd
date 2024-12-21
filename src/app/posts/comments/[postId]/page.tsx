@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { use, useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 type userType = {
   _id: string;
   username: string;
@@ -25,13 +27,39 @@ type commentType = {
 const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const { postId } = use(params);
   const [comments, setComments] = useState<commentType>([]);
+  const [commentValue, setCommentValue] = useState<string>("");
 
   const getPostsData = async () => {
+    const token = localStorage.getItem("accessToken");
     const dataJson = await fetch(
-      `https://instagram-1-5x7q.onrender.com/${postId}`
+      `https://instagram-1-5x7q.onrender.com/${postId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
     const data = await dataJson.json();
     setComments(data.comments);
+  };
+  const checkComment = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (commentValue.length == 0 || commentValue.includes(" ")) {
+      setCommentValue("");
+      console.log("hooson");
+    } else {
+      await fetch(`https://instagram-1-5x7q.onrender.com/createComment`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+    }
+  };
+  const HandleComment = (e: { target: { value: string } }) => {
+    setCommentValue(e.target.value);
   };
   useEffect(() => {
     getPostsData();
@@ -63,8 +91,18 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
           );
         })}
       </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
+      <CardFooter className="fixed bottom-12 w-screen">
+        <Input
+          onChange={HandleComment}
+          value={commentValue}
+          className="text-white"
+          placeholder="Write a comment.."
+        />
+        {commentValue.length !== 0 ? (
+          <Button className="hover:text-slate-600" onChange={checkComment}>
+            Post
+          </Button>
+        ) : null}
       </CardFooter>
     </Card>
   );
