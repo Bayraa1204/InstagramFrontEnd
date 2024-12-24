@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 type userType = {
   _id: string;
@@ -21,15 +21,14 @@ const PostCommentSection = ({
 }) => {
   return (
     <div>
-      {postComments.slice(0, 2).map((comment) => {
+      {postComments.slice(0, 1).map((comment) => {
         return (
           <div
             key={comment._id}
-            className="flex items-center gap-2 mb-3 text-white"
+            className="flex items-center gap-2 text-white mb-4"
           >
-            <Avatar className="w-[20px] h-[20px]">
+            <Avatar style={{ height: "20px", width: "20px" }}>
               <AvatarImage src={comment.userId.profileImg} />
-              <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="font-bold">{comment.userId.username}</div>
             <div>{comment.comment}</div>
@@ -39,7 +38,7 @@ const PostCommentSection = ({
       {postComments.length > 0 && (
         <Link
           href={`http://localhost:3000/posts/comments/${postId}`}
-          className="text-gray-500"
+          className="text-gray-400"
         >
           View all comments
         </Link>

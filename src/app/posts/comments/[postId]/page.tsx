@@ -8,10 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { use, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import HomeAndSearchFooter from "@/custom-components/HomeAndSearchFooter";
 type userType = {
   _id: string;
   username: string;
@@ -23,6 +24,11 @@ type commentType = {
   userId: userType;
   comment: string;
 }[];
+type JwtPayLoad = {
+  exp: number;
+  iat: number;
+  userId: string;
+};
 
 const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const { postId } = use(params);
@@ -45,7 +51,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   };
   const checkComment = async () => {
     const token = localStorage.getItem("accessToken");
-    if (commentValue.length == 0 || commentValue.includes(" ")) {
+    if (commentValue.length == 0) {
       setCommentValue("");
       console.log("hooson");
     } else {
@@ -55,7 +61,12 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
           "Content-Type": "application/json",
         },
         method: "POST",
+        body: JSON.stringify({
+          postId: postId,
+          comment: commentValue,
+        }),
       });
+      setCommentValue("");
     }
   };
   const HandleComment = (e: { target: { value: string } }) => {
@@ -65,7 +76,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     getPostsData();
   }, []);
   return (
-    <Card className="flex-col h-screen w-screen bg-black">
+    <Card className="flex-col h-screen w-screen bg-black border-none rounded-none">
       <CardHeader className="text-white flex-col items-center text-[40px] mb-8">
         <CardTitle>Instagram</CardTitle>
         <CardDescription className="text-[20px]">Comments</CardDescription>
@@ -79,8 +90,12 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
             >
               <div className="text-white flex items-center text-[18px] gap-2 font-bold">
                 <Avatar className="w-[50px] h-[50px]">
-                  <AvatarImage src={comment.userId.profileImg} />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage
+                    src={
+                      comment.userId.profileImg ??
+                      `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`
+                    }
+                  />
                 </Avatar>
                 {comment.userId.username}
               </div>
@@ -99,11 +114,12 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
           placeholder="Write a comment.."
         />
         {commentValue.length !== 0 ? (
-          <Button className="hover:text-slate-600" onChange={checkComment}>
+          <Button className="hover:text-slate-600" onClick={checkComment}>
             Post
           </Button>
         ) : null}
       </CardFooter>
+      <HomeAndSearchFooter />
     </Card>
   );
 };

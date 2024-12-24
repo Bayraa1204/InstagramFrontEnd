@@ -1,25 +1,17 @@
 "use client";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Bookmark,
-  Heart,
-  MessageCircle,
-  Send,
-  Search,
-  House,
-} from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import Link from "next/link";
-import IsLiked from "@/custom-components/isLikedHeartRed";
-import SeeLikedPeoples from "@/custom-components/seeLikedPeoples";
 import PostReactions from "@/custom-components/PostReactions";
 import PostCommentSection from "@/custom-components/PostCommentSection";
+import SeeLikedPeoples from "@/custom-components/SeeLikedPeoples";
+import HomeAndSearchFooter from "@/custom-components/HomeAndSearchFooter";
+import Link from "next/link";
 type likeType = {
   _id: string;
   profileImg: string;
@@ -79,11 +71,19 @@ const Page = () => {
             key={index}
           >
             <div className="flex mt-4 items-center gap-3 p-6 pt-0 text-white">
-              <Avatar>
-                <AvatarImage src={post.userId.profileImg} />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div>{post.userId.username}</div>
+              <Link
+                href={`http://localhost:3000/posts/users/${post.userId._id}`}
+              >
+                <Avatar>
+                  <AvatarImage src={post.userId.profileImg} />
+                </Avatar>
+              </Link>
+
+              <Link
+                href={`http://localhost:3000/posts/users/${post.userId._id}`}
+              >
+                {post.userId.username}
+              </Link>
             </div>
             <CardContent className="flex-col items-center justify-center w=[340px] h-[340px] mb-4">
               <Carousel>
@@ -99,6 +99,10 @@ const Page = () => {
             </CardContent>
             <CardFooter className="flex-col items-start gap-2">
               <PostReactions postLike={post.like} postId={post._id} />
+              <SeeLikedPeoples
+                likedPeopleData={post.like}
+                userId={localStorage.getItem("accessToken") ?? ""}
+              />
               <PostCommentSection
                 postComments={post.comments}
                 postId={post._id}
@@ -107,20 +111,7 @@ const Page = () => {
           </Card>
         );
       })}
-      <div className=" flex fixed bottom-0 w-screen h-10 border-gray-800">
-        <Link
-          href="http://localhost:3000/posts/search"
-          className="w-[50%] bg-black flex justify-center h-full rounded-none"
-        >
-          <Search className="text-white h-full" />
-        </Link>
-        <Link
-          href="http://localhost:3000/posts"
-          className="w-[50%] bg-black flex justify-center h-full rounded-none"
-        >
-          <House className="text-white h-full" />
-        </Link>
-      </div>
+      <HomeAndSearchFooter />
     </div>
   );
 };
