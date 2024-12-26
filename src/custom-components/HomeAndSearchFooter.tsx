@@ -3,7 +3,10 @@ import Link from "next/link";
 
 const HomeAndSearchFooter = () => {
   return (
-    <div className="flex w-screen h-10 border-gray-800 fixed bottom-0">
+    <div
+      className="flex w-screen h-10 border-gray-800 fixed bottom-0 left-0"
+      style={{ position: "fixed", bottom: "0" }}
+    >
       <Link
         href="http://localhost:3000/posts/search"
         className=" bg-black flex justify-center h-full rounded-none"

@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 
@@ -31,6 +31,26 @@ export default function Page() {
   const loginButtonClicked = () => {
     checkUserName();
     checkPassword();
+    if (!emailError && !passwordError) {
+      fetch(`https://instagram-1-5x7q.onrender.com/user/logIn`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: passwordValue,
+          email: emailValue,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setEmailValue("");
+          setPasswordValue("");
+          const access = data.token;
+          localStorage.setItem("accessToken", access);
+        })
+        .then(() => (window.location.href = "/posts"));
+    }
   };
   const checkUserName = () => {
     if (emailValue.length == 0 || emailValue.includes(" ")) {

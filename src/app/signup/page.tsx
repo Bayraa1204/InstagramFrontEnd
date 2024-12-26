@@ -38,9 +38,11 @@ export default function Page() {
     checkEmail();
     checkPassword();
     if (!userNameError && !emailError && !passwordError) {
-      fetch(`https://instagram-1-5x7q.onrender.com/signUp`, {
+      fetch(`https://instagram-1-5x7q.onrender.com/user/signUp`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           username: userNameValue,
           password: passwordValue,
