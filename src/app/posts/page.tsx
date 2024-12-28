@@ -12,24 +12,28 @@ import PostCommentSection from "@/custom-components/PostCommentSection";
 import SeeLikedPeoples from "@/custom-components/SeeLikedPeoples";
 import HomeAndSearchFooter from "@/custom-components/HomeAndSearchFooter";
 import Link from "next/link";
-type likeType = {
+export type likeType = {
   _id: string;
   profileImg: string;
   username: string;
   email: string;
 };
-type userType = {
+export type userType = {
   _id: string;
   username: string;
   email: string;
   profileImg: string;
+  posts: postType;
+  followers: string[];
+  following: string[];
+  bio: string;
 };
-type commentType = {
+export type commentType = {
   _id: string;
   userId: userType;
   comment: string;
 }[];
-type postType = {
+export type postType = {
   _id: string;
   caption: string;
   postImg: string;
@@ -46,7 +50,7 @@ const Page = () => {
       window.location.href = "/login";
     }
     const dataJson = await fetch(
-      "https://instagram-1-5x7q.onrender.com/getPost",
+      "https://instagram-1-5x7q.onrender.com/post/getPost",
       {
         headers: {
           Authorization: `Bearer ${token}`,

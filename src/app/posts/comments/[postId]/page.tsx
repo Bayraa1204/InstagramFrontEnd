@@ -38,7 +38,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const getPostsData = async () => {
     const token = localStorage.getItem("accessToken");
     const dataJson = await fetch(
-      `https://instagram-1-5x7q.onrender.com/${postId}`,
+      `https://instagram-1-5x7q.onrender.com/post/${postId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

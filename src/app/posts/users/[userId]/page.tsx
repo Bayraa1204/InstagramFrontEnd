@@ -5,42 +5,16 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import HomeAndSearchFooter from "@/custom-components/HomeAndSearchFooter";
 import { AtSign, Grid3x3 } from "lucide-react";
 import { use, useEffect, useState } from "react";
-type likeType = {
-  _id: string;
-  profileImg: string;
-  username: string;
-  email: string;
-};
-type userType = {
-  _id: string;
-  username: string;
-  email: string;
-  profileImg: string;
-  posts: postType;
-  followers: string[];
-  following: string[];
-  bio: string;
-};
-type commentType = {
-  _id: string;
-  userId: userType;
-  comment: string;
-}[];
-type postType = {
-  _id: string;
-  caption: string;
-  postImg: string;
-  userId: userType;
-  like: likeType[];
-  comments: commentType;
-}[];
+import { userType } from "../../page";
+import Link from "next/link";
+import FollowButton from "@/custom-components/HandleFollowButton";
+
 const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = use(params);
   const [userData, setUserData] = useState<userType>();
@@ -56,8 +30,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
       }
     );
     const data = await dataJson.json();
-    console.log(data);
-    setUserData(data);
+    await setUserData(data);
   };
   useEffect(() => {
     getUserData();
@@ -81,9 +54,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
             <div className="text-left text-[20px] text-white mb-4">
               {userData?.username}
             </div>
-            <Button className="w-full bg-blue-500 font-bold h-[32px]">
-              Follow
-            </Button>
+            <FollowButton userId={userData?._id ?? ""} />
           </div>
         </CardTitle>
         <CardDescription className="text-left text-white font-bold flex-col">
@@ -98,13 +69,16 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
       <CardContent className="p-0">
         <div className="border-t-neutral-700 border-t-[1px] text-gray-400 flex text-[14px] pb-3 pt-3">
           <div className="flex-col w-[33%] text-center">
-            <p className="text-white font-bold">{userData?.posts.length}</p> posts
+            <p className="text-white font-bold">{userData?.posts.length}</p>{" "}
+            posts
           </div>
           <div className="flex-col w-[33%] text-center">
-            <p className="text-white font-bold">{userData?.followers.length}</p> followers
+            <p className="text-white font-bold">{userData?.followers.length}</p>{" "}
+            followers
           </div>
           <div className="flex-col w-[33%] text-center">
-            <p className="text-white font-bold">{userData?.following.length}</p> following
+            <p className="text-white font-bold">{userData?.following.length}</p>{" "}
+            following
           </div>
         </div>
         <div className="h-[44px] flex justify-center items-center text-blue-500 border-t-2">
@@ -113,11 +87,13 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
         <div className="flex-wrap flex justify-between">
           {userData?.posts.map((post) => {
             return (
-              <img
+              <Link
                 key={post._id}
-                className="w-[127px] h-[127px]"
-                src={post.postImg}
-              />
+                href={`http://localhost:3000/posts/userPosts/${post._id}`}
+                className="w-[127px] h-[127px] mb-1"
+              >
+                <img className="w-full h-full" src={post.postImg} />
+              </Link>
             );
           })}
         </div>

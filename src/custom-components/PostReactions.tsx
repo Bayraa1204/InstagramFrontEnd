@@ -1,18 +1,14 @@
 import Link from "next/link";
 import { Bookmark, MessageCircle, Send } from "lucide-react";
 import IsLiked from "./IsLikedHeartRed";
-type likeType = {
-  _id: string;
-  profileImg: string;
-  username: string;
-  email: string;
-};
+import { likeType } from "@/app/posts/page";
+
 const PostReactions = ({
   postLike,
   postId,
 }: {
-  postLike: likeType[];
-  postId: string;
+  postLike: likeType[] | undefined;
+  postId: string ;
 }) => {
   return (
     <div
@@ -21,9 +17,9 @@ const PostReactions = ({
     >
       <div className="h-[30px] flex gap-2 text-white">
         <IsLiked
-          postId={postId}
-          likedPeopleData={postLike}
           userId={localStorage.getItem("accessToken") ?? ""}
+          likedPeopleData={postLike}
+          postId={postId}
         />
         <Link
           href={`http://localhost:3000/posts/comments/${postId}`}

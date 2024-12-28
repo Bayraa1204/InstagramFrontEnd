@@ -11,6 +11,7 @@ import {
 import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import FollowButton from "./HandleFollowButton";
 type likeType = {
   _id: string;
   profileImg: string;
@@ -27,13 +28,13 @@ const SeeLikedPeoples = ({
   likedPeopleData,
   userId,
 }: {
-  likedPeopleData: likeType[];
+  likedPeopleData: likeType[] | undefined;
   userId: string;
 }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const decodedToken = jwtDecode<JwtPayLoad>(userId);
   const checkIfLiked = () => {
-    likedPeopleData.map((likedPeople) => {
+    likedPeopleData?.map((likedPeople) => {
       if (likedPeople._id == decodedToken.userId) {
         setIsLiked(true);
       }
@@ -46,9 +47,9 @@ const SeeLikedPeoples = ({
   return (
     <Dialog>
       <DialogTrigger>
-        {likedPeopleData.length !== 0 ? (
+        {likedPeopleData?.length !== 0 ? (
           <div className="font-bold text-white">
-            {likedPeopleData.length} likes
+            {likedPeopleData?.length} likes
           </div>
         ) : null}
       </DialogTrigger>
@@ -56,7 +57,7 @@ const SeeLikedPeoples = ({
         <DialogHeader className="gap-4">
           <DialogTitle className="text-gray-600">Liked Users.</DialogTitle>
           {likedPeopleData?.map((user) => {
-            const emailName = user.email.split("@");
+            const emailName = user.email?.split("@")[0];
             return (
               <div
                 key={user._id}
@@ -82,11 +83,13 @@ const SeeLikedPeoples = ({
                       {user.username}
                     </Link>
                     <div className=" text-[15px]" style={{ color: "dimgray" }}>
-                      {emailName[0]}
+                      {emailName}
                     </div>
                   </div>
                 </div>
-                <Button className="bg-blue-600">Follow</Button>
+                <div className="w-fit">
+                  <FollowButton userId={decodedToken.userId} />
+                </div>
               </div>
             );
           })}

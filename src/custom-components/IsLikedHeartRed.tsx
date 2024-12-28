@@ -19,15 +19,16 @@ const IsLiked = ({
   postId,
 }: {
   userId: string;
-  likedPeopleData: likeType[];
+  likedPeopleData: likeType[] | undefined;
   postId: string;
 }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const decodedToken = jwtDecode<JwtPayLoad>(userId);
-  const checkIfLiked = () => {
-    likedPeopleData.map((likedPeople, index) => {
+  const checkIfLiked = async () => {
+    await likedPeopleData?.map((likedPeople) => {
       if (likedPeople._id == decodedToken.userId) {
         setIsLiked(true);
+        console.log("liked");
       }
     });
   };
@@ -36,7 +37,6 @@ const IsLiked = ({
   }, []);
 
   const HandleLike = async (postId: string) => {
-    console.log(isLiked);
     if (isLiked) {
       const token = localStorage.getItem("accessToken");
       setIsLiked(false);
