@@ -12,7 +12,6 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { use, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import HomeAndSearchFooter from "@/custom-components/Footer";
 import IconFooter from "@/custom-components/Footer";
 type userType = {
   _id: string;
