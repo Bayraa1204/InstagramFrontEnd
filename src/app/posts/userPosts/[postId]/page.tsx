@@ -1,15 +1,8 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import HomeAndSearchFooter from "@/custom-components/HomeAndSearchFooter";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import HomeAndSearchFooter from "@/custom-components/Footer";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -21,6 +14,7 @@ import PostCommentSection from "@/custom-components/PostCommentSection";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { commentType, likeType, userType } from "../../page";
+import IconFooter from "@/custom-components/Footer";
 export type postType = {
   _id: string;
   caption: string;
@@ -83,17 +77,14 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
             postLike={postData?.like}
             postId={postData?._id ?? ""}
           />
-          <SeeLikedPeoples
-            likedPeopleData={postData?.like}
-            userId={localStorage.getItem("accessToken") ?? ""}
-          />
+          <SeeLikedPeoples likedPeopleData={postData?.like} />
           <PostCommentSection
             postComments={postData?.comments}
             postId={postData?._id ?? ""}
           />
         </CardFooter>
       </Card>
-      <HomeAndSearchFooter />
+      <IconFooter />
     </div>
   );
 };

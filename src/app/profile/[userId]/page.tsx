@@ -1,6 +1,6 @@
 "use client";
+import { userType } from "@/app/posts/page";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,25 +8,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AtSign, Grid3x3 } from "lucide-react";
-import { use, useEffect, useState } from "react";
-import { userType } from "../../page";
-import Link from "next/link";
-import FollowButton, {
-  JwtPayLoad,
-} from "@/custom-components/HandleFollowButton";
-import SeeFollowedPeoples from "@/custom-components/SeeFollowedPeoples";
 import IconFooter from "@/custom-components/Footer";
-import { jwtDecode } from "jwt-decode";
+import FollowButton from "@/custom-components/HandleFollowButton";
+import SeeFollowedPeoples from "@/custom-components/SeeFollowedPeoples";
+import { AtSign, Grid3x3 } from "lucide-react";
+import Link from "next/link";
+import { use, useEffect, useState } from "react";
 
 const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = use(params);
-  const decodedToken = jwtDecode<JwtPayLoad>(
-    localStorage.getItem("accessToken") ?? ""
-  );
-  if (decodedToken.userId == userId) {
-    window.location.href = `/profile/${userId}`;
-  }
   const [userData, setUserData] = useState<userType>();
   const getUserData = async () => {
     const token = localStorage.getItem("accessToken");
@@ -64,7 +54,6 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
             <div className="text-left text-[20px] text-white mb-4">
               {userData?.username}
             </div>
-            <FollowButton userData={userData} />
           </div>
         </CardTitle>
         <CardDescription className="text-left text-white font-bold flex-col">

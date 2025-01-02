@@ -10,8 +10,8 @@ import {
 import PostReactions from "@/custom-components/PostReactions";
 import PostCommentSection from "@/custom-components/PostCommentSection";
 import SeeLikedPeoples from "@/custom-components/SeeLikedPeoples";
-import HomeAndSearchFooter from "@/custom-components/HomeAndSearchFooter";
 import Link from "next/link";
+import IconFooter from "@/custom-components/Footer";
 export type likeType = {
   _id: string;
   profileImg: string;
@@ -24,8 +24,8 @@ export type userType = {
   email: string;
   profileImg: string;
   posts: postType;
-  followers: string[];
-  following: string[];
+  followers: userType[];
+  following: userType[];
   bio: string;
 };
 export type commentType = {
@@ -103,10 +103,7 @@ const Page = () => {
             </CardContent>
             <CardFooter className="flex-col items-start gap-2">
               <PostReactions postLike={post.like} postId={post._id} />
-              <SeeLikedPeoples
-                likedPeopleData={post.like}
-                userId={localStorage.getItem("accessToken") ?? ""}
-              />
+              <SeeLikedPeoples likedPeopleData={post.like} />
               <PostCommentSection
                 postComments={post.comments}
                 postId={post._id}
@@ -115,7 +112,7 @@ const Page = () => {
           </Card>
         );
       })}
-      <HomeAndSearchFooter />
+      <IconFooter />
     </div>
   );
 };

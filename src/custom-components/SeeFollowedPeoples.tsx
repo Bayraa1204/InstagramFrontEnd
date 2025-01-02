@@ -1,4 +1,5 @@
 "use client";
+import { userType } from "@/app/posts/page";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
@@ -8,38 +9,29 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-type likeType = {
-  _id: string;
-  profileImg: string;
-  username: string;
-  email: string;
-}[];
 
-const SeeLikedPeoples = ({
-  likedPeopleData,
+const SeeFollowedPeoples = ({
+  followedPeopleData,
+  followers,
 }: {
-  likedPeopleData: likeType | undefined;
+  followedPeopleData: userType[] | undefined;
+  followers: number | undefined;
 }) => {
-  const [likedNum, setLikedNum] = useState<number>();
-  const CheckLike = () => {
-    setLikedNum(likedPeopleData?.length);
-  };
-  useEffect(() => {
-    CheckLike();
-  }, [likedPeopleData]);
   return (
     <Dialog>
       <DialogTrigger>
-        {likedPeopleData?.length !== 0 ? (
-          <div className="font-bold text-white">{likedNum} likes</div>
-        ) : null}
+        {
+          <div className="flex-col text-center">
+            <p className="text-white font-bold">{followers}</p>
+            followers
+          </div>
+        }
       </DialogTrigger>
-      <DialogContent className="bg-black h-[400px]">
+      <DialogContent className="bg-black">
         <DialogHeader className="gap-4">
-          <DialogTitle className="text-white">Liked Users.</DialogTitle>
+          <DialogTitle className="text-white">Followers</DialogTitle>
           <div style={{ height: "400px", overflow: "scroll" }}>
-            {likedPeopleData?.map((user) => {
+            {followedPeopleData?.map((user) => {
               const emailName = user.email?.split("@")[0];
               return (
                 <div
@@ -63,7 +55,7 @@ const SeeLikedPeoples = ({
                     <div className="text-left">
                       <Link
                         href={`http://localhost:3000/posts/users/${user._id}`}
-                        className="text-white text-[15px] text-left"
+                        className="text-white text-[15px] "
                       >
                         {user.username}
                       </Link>
@@ -85,4 +77,4 @@ const SeeLikedPeoples = ({
   );
 };
 
-export default SeeLikedPeoples;
+export default SeeFollowedPeoples;

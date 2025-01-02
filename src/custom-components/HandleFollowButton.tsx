@@ -1,38 +1,30 @@
 "use client";
 
-import { userType } from "@/app/posts/page";
+import { likeType, userType } from "@/app/posts/page";
 import { Button } from "@/components/ui/button";
+import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
+export type JwtPayLoad = {
+  exp: number;
+  iat: number;
+  userId: string;
+};
 
-const FollowButton = ({ userId }: { userId: string }) => {
+const FollowButton = ({ userData }: { userData: userType | undefined }) => {
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
-  const [userData, setUserData] = useState<userType>();
-  const getUserData = async () => {
-    const token = localStorage.getItem("accessToken");
-    const dataJson = await fetch(
-      `https://instagram-1-5x7q.onrender.com/user/${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await dataJson.json();
-    await setUserData(data);
-  };
-  useEffect(() => {
-    getUserData();
-  }, []);
+  const decodedToken = jwtDecode<JwtPayLoad>(
+    localStorage.getItem("accessToken") ?? ""
+  );
   const CheckIfFollowed = async () => {
-    await userData?.followers.map((followedUser) => {
-      followedUser == userData._id &&
-        setIsFollowed(true) &&
-        console.log("followed");
+    userData?.followers.map((followedUser) => {
+      if (followedUser._id == decodedToken.userId) {
+        setIsFollowed(true);
+      }
     });
   };
   const HandleFollowUser = async () => {
     const token = localStorage.getItem("accessToken");
+    CheckIfFollowed();
     if (!isFollowed) {
       await fetch(`https://instagram-1-5x7q.onrender.com/user/followUser`, {
         method: "POST",
@@ -61,16 +53,25 @@ const FollowButton = ({ userId }: { userId: string }) => {
   };
   useEffect(() => {
     CheckIfFollowed();
-  }, []);
+  }, [userData]);
   return (
-    <Button
-      className={`w-full ${
-        isFollowed ? "bg-blue-500" : "bg-neutral-700"
-      }font-bold h-[32px]`}
-      onClick={HandleFollowUser}
-    >
-      {isFollowed ? "Following" : "Follow"}
-    </Button>
+    <div>
+      {isFollowed ? (
+        <Button
+          className="w-full font-bold h-[32px] bg-blue-500"
+          onClick={HandleFollowUser}
+        >
+          Following
+        </Button>
+      ) : (
+        <Button
+          className="w-full font-bold h-[32px] bg-neutral-700"
+          onClick={HandleFollowUser}
+        >
+          Follow
+        </Button>
+      )}
+    </div>
   );
 };
 export default FollowButton;

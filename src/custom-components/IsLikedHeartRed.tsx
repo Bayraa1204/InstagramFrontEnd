@@ -34,7 +34,7 @@ const IsLiked = ({
   };
   useEffect(() => {
     checkIfLiked();
-  }, []);
+  }, [likedPeopleData]);
 
   const HandleLike = async (postId: string) => {
     if (isLiked) {
