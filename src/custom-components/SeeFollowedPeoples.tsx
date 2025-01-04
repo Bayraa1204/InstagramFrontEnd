@@ -12,24 +12,29 @@ import Link from "next/link";
 
 const SeeFollowedPeoples = ({
   followedPeopleData,
-  followers,
+  followersLength,
+  isFollowing,
 }: {
   followedPeopleData: userType[] | undefined;
-  followers: number | undefined;
+  followersLength: number | undefined;
+  isFollowing: boolean;
 }) => {
+  const baseUrl = window.location.origin;
   return (
     <Dialog>
       <DialogTrigger>
         {
           <div className="flex-col text-center">
-            <p className="text-white font-bold">{followers}</p>
-            followers
+            <p className="text-white font-bold">{followersLength}</p>
+            {isFollowing ? "following" : "followers"}
           </div>
         }
       </DialogTrigger>
       <DialogContent className="bg-black">
         <DialogHeader className="gap-4">
-          <DialogTitle className="text-white">Followers</DialogTitle>
+          <DialogTitle className="text-white">
+            {isFollowing ? "Following" : "Followers"}
+          </DialogTitle>
           <div style={{ height: "400px", overflow: "scroll" }}>
             {followedPeopleData?.map((user) => {
               const emailName = user.email?.split("@")[0];
@@ -41,7 +46,7 @@ const SeeFollowedPeoples = ({
                 >
                   <div className="flex items-center gap-2">
                     <Link
-                      href={`http://localhost:3000/posts/users/${user._id}`}
+                      href={`${baseUrl}/posts/users/${user._id}`}
                     >
                       <Avatar>
                         <AvatarImage
@@ -54,7 +59,7 @@ const SeeFollowedPeoples = ({
                     </Link>
                     <div className="text-left">
                       <Link
-                        href={`http://localhost:3000/posts/users/${user._id}`}
+                        href={`${baseUrl}/posts/users/${user._id}`}
                         className="text-white text-[15px] "
                       >
                         {user.username}

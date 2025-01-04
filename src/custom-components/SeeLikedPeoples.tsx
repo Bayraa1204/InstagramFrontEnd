@@ -38,7 +38,7 @@ const SeeLikedPeoples = ({
       <DialogContent className="bg-black h-[400px]">
         <DialogHeader className="gap-4">
           <DialogTitle className="text-white">Liked Users.</DialogTitle>
-          <div style={{ height: "400px", overflow: "scroll" }}>
+          <div style={{ height: "300px", overflow: "scroll" }}>
             {likedPeopleData?.map((user) => {
               const emailName = user.email?.split("@")[0];
               return (

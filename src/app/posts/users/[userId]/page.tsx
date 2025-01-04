@@ -1,6 +1,5 @@
 "use client";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AtSign, Grid3x3 } from "lucide-react";
+import { AtSign, Grid3x3, Instagram } from "lucide-react";
 import { use, useEffect, useState } from "react";
 import { userType } from "../../page";
 import Link from "next/link";
@@ -20,6 +19,7 @@ import IconFooter from "@/custom-components/Footer";
 import { jwtDecode } from "jwt-decode";
 
 const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
+  const baseUrl = window.location.origin;
   const { userId } = use(params);
   const decodedToken = jwtDecode<JwtPayLoad>(
     localStorage.getItem("accessToken") ?? ""
@@ -85,29 +85,53 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
           <div className="flex-col w-[33%] text-center">
             <SeeFollowedPeoples
               followedPeopleData={userData?.followers}
-              followers={userData?.followers.length}
+              followersLength={userData?.followers.length}
+              isFollowing={false}
             />
           </div>
           <div className="flex-col w-[33%] text-center">
-            <p className="text-white font-bold">{userData?.following.length}</p>{" "}
-            following
+            <SeeFollowedPeoples
+              followedPeopleData={userData?.following}
+              followersLength={userData?.following.length}
+              isFollowing={true}
+            />
           </div>
         </div>
         <div className="h-[44px] flex justify-center items-center text-blue-500 border-t-2">
           <Grid3x3 />
         </div>
         <div className="flex-wrap flex justify-between">
-          {userData?.posts.map((post) => {
-            return (
-              <Link
-                key={post._id}
-                href={`http://localhost:3000/posts/userPosts/${post._id}`}
-                className="w-[33%] mb-1"
-              >
-                <img className="aspect-square" src={post.postImg} />
-              </Link>
-            );
-          })}
+          {userData?.posts.length !== undefined &&
+          userData?.posts.length > 0 ? (
+            userData?.posts.map((post) => {
+              return (
+                <Link
+                  key={post._id}
+                  href={`${baseUrl}/posts/userPost/${post._id}`}
+                  className="w-[33%] mb-1"
+                >
+                  <img className="aspect-square" src={post.postImg} />
+                </Link>
+              );
+            })
+          ) : (
+            <div
+              className="text-white w-screen flex border-t-2 border-b-2 border-neutral-800 p-2 gap-2"
+              style={{
+                alignItems: "center",
+                justifyItems: "center",
+              }}
+            >
+              <Instagram className="w-[62px] h-[62px]" />
+              <div className="text-[14px] font-bold">
+                <div className="">No Posts Yet</div>
+                <div className="text-left text-neutral-400">
+                  When {userData?.username} posts, you'll see their photos and
+                  videos here.
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
       <IconFooter />

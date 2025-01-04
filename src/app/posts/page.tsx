@@ -66,12 +66,12 @@ const Page = () => {
     getPostsData();
   }, []);
   return (
-    <div className="bg-black h-max flex-col justify-items-center items-center relative">
+    <div className="bg-black h-max flex-col justify-items-center items-center relative mb-[20px]">
       <h1 className=" text-[40px] text-white font-sans pt-6 p-6">Instagram</h1>
       {posts?.map((post, index) => {
         return (
           <Card
-            className="bg-black border-gray-800 w-screen rounded-se-none"
+            className="bg-black border-gray-800 w-screen rounded-none"
             key={index}
           >
             <div className="flex mt-4 items-center gap-3 p-6 pt-0 text-white">
