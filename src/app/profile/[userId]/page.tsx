@@ -99,7 +99,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
                   href={`${baseUrl}/posts/userPost/${post._id}`}
                   className="w-[33%] mb-1"
                 >
-                  <img className="aspect-square" src={post.postImg} />
+                  <img className="aspect-square" src={post.postImg[0]} />
                 </Link>
               );
             })

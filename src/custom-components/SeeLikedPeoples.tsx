@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import FollowButton from "./HandleFollowButton";
+import { userType } from "@/app/posts/page";
 type likeType = {
   _id: string;
   profileImg: string;
@@ -19,7 +21,7 @@ type likeType = {
 const SeeLikedPeoples = ({
   likedPeopleData,
 }: {
-  likedPeopleData: likeType | undefined;
+  likedPeopleData: userType[] | undefined;
 }) => {
   const [likedNum, setLikedNum] = useState<number>();
   const CheckLike = () => {
@@ -44,7 +46,7 @@ const SeeLikedPeoples = ({
               return (
                 <div
                   key={user._id}
-                  className="flex mb-8 "
+                  className="flex mb-8 items-center"
                   style={{ height: "52px", justifyContent: "space-between" }}
                 >
                   <div className="flex items-center gap-2">
@@ -75,6 +77,7 @@ const SeeLikedPeoples = ({
                       </div>
                     </div>
                   </div>
+                  <FollowButton userData={user} />
                 </div>
               );
             })}

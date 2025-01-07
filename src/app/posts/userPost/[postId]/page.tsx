@@ -13,14 +13,14 @@ import SeeLikedPeoples from "@/custom-components/SeeLikedPeoples";
 import PostCommentSection from "@/custom-components/PostCommentSection";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { commentType, likeType, userType } from "../../page";
+import { commentType, userType } from "../../page";
 import IconFooter from "@/custom-components/Footer";
 export type postType = {
   _id: string;
   caption: string;
   postImg: string;
   userId: userType;
-  like: likeType[];
+  like: userType[];
   comments: commentType;
 };
 const Page = ({ params }: { params: Promise<{ postId: string }> }) => {

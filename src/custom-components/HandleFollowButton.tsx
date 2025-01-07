@@ -1,6 +1,6 @@
 "use client";
 
-import { likeType, userType } from "@/app/posts/page";
+import { userType } from "@/app/posts/page";
 import { Button } from "@/components/ui/button";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ const FollowButton = ({ userData }: { userData: userType | undefined }) => {
     localStorage.getItem("accessToken") ?? ""
   );
   const CheckIfFollowed = async () => {
-    userData?.followers.map((followedUser) => {
+    userData?.followers?.map((followedUser) => {
       if (followedUser._id == decodedToken.userId) {
         setIsFollowed(true);
       }

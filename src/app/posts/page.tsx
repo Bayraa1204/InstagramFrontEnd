@@ -12,12 +12,7 @@ import PostCommentSection from "@/custom-components/PostCommentSection";
 import SeeLikedPeoples from "@/custom-components/SeeLikedPeoples";
 import Link from "next/link";
 import IconFooter from "@/custom-components/Footer";
-export type likeType = {
-  _id: string;
-  profileImg: string;
-  username: string;
-  email: string;
-};
+
 export type userType = {
   _id: string;
   username: string;
@@ -36,9 +31,9 @@ export type commentType = {
 export type postType = {
   _id: string;
   caption: string;
-  postImg: string;
+  postImg: string[];
   userId: userType;
-  like: likeType[];
+  like: userType[];
   comments: commentType;
 }[];
 const Page = () => {
@@ -92,16 +87,24 @@ const Page = () => {
             <CardContent className="flex-col items-center justify-center w=[340px] h-[340px] mb-4">
               <Carousel>
                 <CarouselContent>
-                  <CarouselItem className="flex justify-center w=[340px] h-[340px]">
-                    <img src={post.postImg} />
-                  </CarouselItem>
-                  <CarouselItem className="flex justify-center w=[340px] h-[340px]">
-                    <img src={post.postImg} />
-                  </CarouselItem>
+                  {post.postImg.map((img, index) => {
+                    return (
+                      <CarouselItem
+                        key={index}
+                        className="flex justify-center w=[340px] h-[340px]"
+                      >
+                        <img src={img} />
+                      </CarouselItem>
+                    );
+                  })}
                 </CarouselContent>
               </Carousel>
             </CardContent>
             <CardFooter className="flex-col items-start gap-2">
+              <div className="flex items-center gap-1 text-white text-[15px]">
+                <div className="font-bold">{post.userId.username}</div>
+                <div>{post.caption}</div>
+              </div>
               <PostReactions postLike={post.like} postId={post._id} />
               <SeeLikedPeoples likedPeopleData={post.like} />
               <PostCommentSection
