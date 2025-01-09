@@ -1,7 +1,6 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import HomeAndSearchFooter from "@/custom-components/Footer";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Carousel,
@@ -43,20 +42,17 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   useEffect(() => {
     getPostData();
   }, []);
+  const baseUrl = window.location.origin;
   return (
     <div className="bg-black h-screen flex-col justify-items-center items-center relative">
       <Card className="bg-black border-gray-800 w-screen rounded-se-none">
         <div className="flex mt-4 items-center gap-3 p-6 pt-0 text-white">
-          <Link
-            href={`http://localhost:3000/posts/users/${postData?.userId._id}`}
-          >
+          <Link href={`${baseUrl}/posts/users/${postData?.userId._id}`}>
             <Avatar>
               <AvatarImage src={postData?.userId.profileImg} />
             </Avatar>
           </Link>
-          <Link
-            href={`http://localhost:3000/posts/users/${postData?.userId._id}`}
-          >
+          <Link href={`${baseUrl}/posts/users/${postData?.userId._id}`}>
             {postData?.userId.username}
           </Link>
         </div>

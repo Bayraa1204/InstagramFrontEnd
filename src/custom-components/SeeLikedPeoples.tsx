@@ -30,6 +30,7 @@ const SeeLikedPeoples = ({
   useEffect(() => {
     CheckLike();
   }, [likedPeopleData]);
+  const baseUrl = window.location.origin;
   return (
     <Dialog>
       <DialogTrigger>
@@ -50,9 +51,7 @@ const SeeLikedPeoples = ({
                   style={{ height: "52px", justifyContent: "space-between" }}
                 >
                   <div className="flex items-center gap-2">
-                    <Link
-                      href={`http://localhost:3000/posts/users/${user._id}`}
-                    >
+                    <Link href={`${baseUrl}/posts/users/${user._id}`}>
                       <Avatar>
                         <AvatarImage
                           src={
@@ -64,7 +63,7 @@ const SeeLikedPeoples = ({
                     </Link>
                     <div className="text-left">
                       <Link
-                        href={`http://localhost:3000/posts/users/${user._id}`}
+                        href={`${baseUrl}/posts/users/${user._id}`}
                         className="text-white text-[15px] text-left"
                       >
                         {user.username}

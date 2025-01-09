@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { Bookmark, MessageCircle, Send } from "lucide-react";
 import IsLiked from "./IsLikedHeartRed";
-import { likeType } from "@/app/posts/page";
+import { userType } from "@/app/posts/page";
 
 const PostReactions = ({
   postLike,
   postId,
 }: {
-  postLike: likeType[] | undefined;
-  postId: string ;
+  postLike: userType[] | undefined;
+  postId: string;
 }) => {
+  const baseUrl = window.location.origin;
   return (
     <div
       className="flex w-full text-white"
@@ -22,7 +23,7 @@ const PostReactions = ({
           postId={postId}
         />
         <Link
-          href={`http://localhost:3000/posts/comments/${postId}`}
+          href={`${baseUrl}/posts/comments/${postId}`}
           className="hover:text-slate-500 flex items-center"
         >
           <MessageCircle />

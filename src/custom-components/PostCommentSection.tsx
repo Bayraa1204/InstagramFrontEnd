@@ -19,6 +19,7 @@ const PostCommentSection = ({
   postComments: commentType[] | undefined;
   postId: string;
 }) => {
+  const baseUrl = window.location.origin;
   return (
     <div>
       {postComments?.slice(0, 1).map((comment) => {
@@ -42,7 +43,7 @@ const PostCommentSection = ({
       })}
       {postComments?.length != 0 && (
         <Link
-          href={`http://localhost:3000/posts/comments/${postId}`}
+          href={`${baseUrl}/posts/comments/${postId}`}
           className="text-gray-400"
         >
           View all comments

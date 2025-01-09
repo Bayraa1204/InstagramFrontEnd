@@ -73,6 +73,7 @@ export default function Page() {
       setPasswordType("password");
     }
   };
+  const baseUrl = window.location.origin;
 
   return (
     <div className="w-[390px] h-screen bg-black flex justify-center items-center">
@@ -121,7 +122,7 @@ export default function Page() {
           </Button>
           <div className="font-bold w-[270px] text-center text-gray-400 text-[16px]">
             Don't have an account?{" "}
-            <Link href="http://localhost:3000/signup" className="text-blue-600">
+            <Link href={`${baseUrl}/signup`} className="text-blue-600">
               Sign up
             </Link>
           </div>

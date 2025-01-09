@@ -60,6 +60,7 @@ const Page = () => {
   useEffect(() => {
     getPostsData();
   }, []);
+  const baseUrl = window.location.origin;
   return (
     <div className="bg-black h-max flex-col justify-items-center items-center relative mb-[20px]">
       <h1 className=" text-[40px] text-white font-sans pt-6 p-6">Instagram</h1>
@@ -70,17 +71,13 @@ const Page = () => {
             key={index}
           >
             <div className="flex mt-4 items-center gap-3 p-6 pt-0 text-white">
-              <Link
-                href={`http://localhost:3000/posts/users/${post.userId._id}`}
-              >
+              <Link href={`${baseUrl}/posts/users/${post.userId._id}`}>
                 <Avatar>
                   <AvatarImage src={post.userId.profileImg} />
                 </Avatar>
               </Link>
 
-              <Link
-                href={`http://localhost:3000/posts/users/${post.userId._id}`}
-              >
+              <Link href={`${baseUrl}/posts/users/${post.userId._id}`}>
                 {post.userId.username}
               </Link>
             </div>

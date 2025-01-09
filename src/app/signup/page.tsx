@@ -87,7 +87,7 @@ export default function Page() {
       setPasswordError(false);
     }
   };
-
+  const baseUrl = window.location.origin;
   return (
     <div className=" h-screen bg-black flex justify-center items-center">
       <Card className="  flex-row bg-black border-none">
@@ -137,7 +137,7 @@ export default function Page() {
           </Button>
           <div className="font-bold text-center text-gray-400 text-[16px]">
             Have an account?{" "}
-            <Link href="http://localhost:3000/login" className="text-blue-600">
+            <Link href={`${baseUrl}/login`} className="text-blue-600">
               Log in
             </Link>
           </div>

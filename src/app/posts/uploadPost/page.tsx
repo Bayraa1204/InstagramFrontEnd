@@ -15,6 +15,9 @@ import { useState } from "react";
 const Page = () => {
   const [images, setImages] = useState<FileList | null>(null);
   const [caption, setCaption] = useState<string>("");
+  const [imageError, setImageError] = useState<boolean>(false);
+  const [captionError, setCaptionError] = useState<boolean>(false);
+  const [posted, setPosted] = useState<boolean>(false);
 
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
@@ -22,48 +25,74 @@ const Page = () => {
     setCaption(e.target.value);
   };
   const HandleImages = async () => {
-    const token = localStorage.getItem("accessToken");
-    await fetch("https://instagram-1-5x7q.onrender.com/post/createPost", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        caption: caption,
-        postImg: await uploadedImages,
-      }),
-    });
+    if (uploadedImages) {
+      const token = localStorage.getItem("accessToken");
+      await fetch("https://instagram-1-5x7q.onrender.com/post/createPost", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          caption: caption,
+          postImg: uploadedImages,
+        }),
+      });
+    }
   };
 
   const uploadImages = async () => {
     if (images) {
-      const uploadPromises = Array.from(images).map(async (image) => {
-        const formData = new FormData();
-        formData.append("file", image);
-        formData.append("upload_preset", "ace_area");
-        formData.append("cloud_name", "dl93ggn7x");
+      setImageError(false);
+      if (caption.length == 0 || caption[0] == " ") {
+        setCaptionError(true);
+      } else {
+        setCaptionError(false);
+        const uploadPromises = Array.from(images).map(async (image) => {
+          const formData = new FormData();
+          formData.append("file", image);
+          formData.append("upload_preset", "ace_area");
+          formData.append("cloud_name", "dl93ggn7x");
 
-        const response = await fetch(
-          "https://api.cloudinary.com/v1_1/dl93ggn7x/image/upload",
-          {
-            method: "POST",
-            body: formData,
+          const response = await fetch(
+            "https://api.cloudinary.com/v1_1/dl93ggn7x/image/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to upload image");
           }
-        );
 
-        if (!response.ok) {
-          throw new Error("Failed to upload image");
+          const result = await response.json();
+          return result.secure_url;
+        });
+
+        const uploadedUrls = await Promise.all(uploadPromises);
+        if (uploadedUrls) {
+          setUploadedImages(
+            uploadedUrls.filter((url) => url !== null) as string[]
+          );
+
+          const token = localStorage.getItem("accessToken");
+          await fetch("https://instagram-1-5x7q.onrender.com/post/createPost", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify({
+              caption: caption,
+              postImg: uploadedUrls.filter((url) => url !== null) as string[],
+            }),
+          });
+          setPosted(true);
         }
-
-        const result = await response.json();
-        return result.secure_url;
-      });
-
-      const uploadedUrls = await Promise.all(uploadPromises);
-
-      setUploadedImages(uploadedUrls.filter((url) => url !== null) as string[]);
+      }
     } else {
+      setImageError(true);
     }
   };
 
@@ -95,17 +124,26 @@ const Page = () => {
             }}
             className="file:border file:border-neutral-600 file:rounded-md file:px-4 file:py-2 file:bg-neutral-700 file:text-white file:cursor-pointer hover:file:bg-neutral-500"
           />
-          <Button onClick={uploadImages}>Upload</Button>
-          <Button onClick={HandleImages}>Post</Button>
-          <div className="mt-4 text-center overflow-auto h-[500px]">
-            {uploadedImages.map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                className="max-w-full h-[300px] rounded-lg shadow-lg"
-              />
-            ))}
-          </div>
+          {posted ? (
+            <Button onClick={uploadImages} className="bg-sky-500" disabled>
+              Post
+            </Button>
+          ) : (
+            <Button onClick={uploadImages} className="bg-sky-500">
+              Post
+            </Button>
+          )}
+          {imageError ? (
+            <div className="text-red-600">Please select a Image first!</div>
+          ) : null}
+          {captionError ? (
+            <div className="text-red-600">Please write your caption!</div>
+          ) : null}
+          {posted ? (
+            <div className="text-[18px] text-white">
+              Your Image has been succesfully posted🎉
+            </div>
+          ) : null}
         </div>
       </CardContent>
       <CardFooter className="text-white"></CardFooter>
