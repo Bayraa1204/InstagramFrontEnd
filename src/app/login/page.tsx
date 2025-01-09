@@ -53,14 +53,14 @@ export default function Page() {
     }
   };
   const checkUserName = () => {
-    if (emailValue.length == 0 || emailValue.includes(" ")) {
+    if (emailValue.length == 0 || emailValue[0] == " ") {
       setEmailError(true);
     } else {
       setEmailError(false);
     }
   };
   const checkPassword = () => {
-    if (passwordValue.length == 0 || passwordValue.includes(" ")) {
+    if (passwordValue.length == 0 || passwordValue[0] == " ") {
       setPasswordError(true);
     } else {
       setPasswordError(false);

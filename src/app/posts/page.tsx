@@ -1,6 +1,6 @@
 "use client";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useState } from "react";
 import {
   Carousel,

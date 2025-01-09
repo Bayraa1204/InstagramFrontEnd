@@ -24,11 +24,6 @@ type commentType = {
   userId: userType;
   comment: string;
 }[];
-type JwtPayLoad = {
-  exp: number;
-  iat: number;
-  userId: string;
-};
 
 const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const { postId } = use(params);

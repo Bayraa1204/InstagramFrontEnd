@@ -124,7 +124,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
             >
               <Instagram className="w-[62px] h-[62px]" />
               <div className="text-[14px] font-bold">
-                <div className="">No Posts Yet</div>
+                <div>No Posts Yet</div>
                 <div className="text-left text-neutral-400">
                   When {userData?.username} posts, you'll see their photos and
                   videos here.

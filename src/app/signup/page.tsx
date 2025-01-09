@@ -21,7 +21,7 @@ export default function Page() {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
 
-  let [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
 
   const HandleUserName = (e: { target: { value: string } }) => {
     setUserNameValue(e.target.value);

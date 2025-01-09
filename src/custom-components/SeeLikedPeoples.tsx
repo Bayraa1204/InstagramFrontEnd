@@ -11,12 +11,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import FollowButton from "./HandleFollowButton";
 import { userType } from "@/app/posts/page";
-type likeType = {
-  _id: string;
-  profileImg: string;
-  username: string;
-  email: string;
-}[];
 
 const SeeLikedPeoples = ({
   likedPeopleData,

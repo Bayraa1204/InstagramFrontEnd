@@ -1,6 +1,6 @@
 "use client";
 import { jwtDecode } from "jwt-decode";
-import { BadgePlus, CircleUser, House, Plus, Search } from "lucide-react";
+import { BadgePlus, CircleUser, House, Search } from "lucide-react";
 import Link from "next/link";
 import { JwtPayLoad } from "./HandleFollowButton";
 

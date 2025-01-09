@@ -24,22 +24,6 @@ const Page = () => {
   const HandleCaption = (e: { target: { value: string } }) => {
     setCaption(e.target.value);
   };
-  const HandleImages = async () => {
-    if (uploadedImages) {
-      const token = localStorage.getItem("accessToken");
-      await fetch("https://instagram-1-5x7q.onrender.com/post/createPost", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          caption: caption,
-          postImg: uploadedImages,
-        }),
-      });
-    }
-  };
 
   const uploadImages = async () => {
     if (images) {
