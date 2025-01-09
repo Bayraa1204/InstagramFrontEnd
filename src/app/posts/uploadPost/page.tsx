@@ -19,8 +19,6 @@ const Page = () => {
   const [captionError, setCaptionError] = useState<boolean>(false);
   const [posted, setPosted] = useState<boolean>(false);
 
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
-
   const HandleCaption = (e: { target: { value: string } }) => {
     setCaption(e.target.value);
   };
@@ -56,9 +54,6 @@ const Page = () => {
 
         const uploadedUrls = await Promise.all(uploadPromises);
         if (uploadedUrls) {
-          setUploadedImages(
-            uploadedUrls.filter((url) => url !== null) as string[]
-          );
 
           const token = localStorage.getItem("accessToken");
           await fetch("https://instagram-1-5x7q.onrender.com/post/createPost", {

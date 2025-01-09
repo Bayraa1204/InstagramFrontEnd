@@ -121,7 +121,7 @@ export default function Page() {
             Log in
           </Button>
           <div className="font-bold w-[270px] text-center text-gray-400 text-[16px]">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href={`${baseUrl}/signup`} className="text-blue-600">
               Sign up
             </Link>
