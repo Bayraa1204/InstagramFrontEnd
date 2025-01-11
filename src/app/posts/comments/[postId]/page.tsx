@@ -44,7 +44,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     const data = await dataJson.json();
     setComments(data.comments);
   };
-  const CheckComment = async () => {
+  const useCheckComment = async () => {
     const [token, setToken] = useState<string | null>("");
     useEffect(() => {
       setToken(localStorage.getItem("accessToken"));
@@ -112,7 +112,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
           placeholder="Write a comment.."
         />
         {commentValue.length !== 0 ? (
-          <Button className="hover:text-slate-600" onClick={CheckComment}>
+          <Button className="hover:text-slate-600" onClick={useCheckComment}>
             Post
           </Button>
         ) : null}

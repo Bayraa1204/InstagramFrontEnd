@@ -17,7 +17,7 @@ import { use, useEffect, useState } from "react";
 const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = use(params);
   const [userData, setUserData] = useState<userType>();
-  const getUserData = async () => {
+  const useGetUserData = async () => {
     const [token, setToken] = useState<string | null>("");
     useEffect(() => {
       setToken(localStorage.getItem("accessToken"));
@@ -35,7 +35,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
     setUserData(data);
   };
   useEffect(() => {
-    getUserData();
+    useGetUserData();
   }, []);
   const [baseUrl, setBaseUrl] = useState<string>("");
 
