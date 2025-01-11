@@ -17,9 +17,11 @@ const PostReactions = ({
     setToken(localStorage.getItem("accessToken"));
   }, []);
 
-  if (typeof window !== "undefined") {
-    setBaseUrl(window.location.origin);
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
   return (
     <div
       className="flex w-full text-white"

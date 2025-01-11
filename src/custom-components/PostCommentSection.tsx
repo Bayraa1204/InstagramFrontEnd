@@ -1,6 +1,6 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 type userType = {
   _id: string;
   username: string;
@@ -22,9 +22,11 @@ const PostCommentSection = ({
 }) => {
   const [baseUrl, setBaseUrl] = useState<string>("");
 
-  if (typeof window !== "undefined") {
-    setBaseUrl(window.location.origin);
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
   return (
     <div>
       {postComments?.slice(0, 1).map((comment) => {

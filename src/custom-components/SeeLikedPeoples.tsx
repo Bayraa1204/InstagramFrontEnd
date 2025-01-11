@@ -26,9 +26,11 @@ const SeeLikedPeoples = ({
   }, [likedPeopleData]);
   const [baseUrl, setBaseUrl] = useState<string>("");
 
-  if (typeof window !== "undefined") {
-    setBaseUrl(window.location.origin);
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
   return (
     <Dialog>
       <DialogTrigger>

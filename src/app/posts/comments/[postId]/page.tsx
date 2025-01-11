@@ -30,7 +30,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const [comments, setComments] = useState<commentType>([]);
   const [commentValue, setCommentValue] = useState<string>("");
 
-  const getPostsData = async () => {
+  const useGetPostsData = async () => {
     const token = localStorage.getItem("accessToken");
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/post/${postId}`,
@@ -71,7 +71,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     setCommentValue(e.target.value);
   };
   useEffect(() => {
-    getPostsData();
+    useGetPostsData();
   }, []);
   return (
     <Card className="flex-col h-screen w-screen bg-black border-none rounded-none">

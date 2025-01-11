@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SeeFollowedPeoples = ({
   followedPeopleData,
@@ -22,9 +22,11 @@ const SeeFollowedPeoples = ({
 }) => {
   const [baseUrl, setBaseUrl] = useState<string>("");
 
-  if (typeof window !== "undefined") {
-    setBaseUrl(window.location.origin);
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
   return (
     <Dialog>
       <DialogTrigger>
@@ -50,9 +52,7 @@ const SeeFollowedPeoples = ({
                   style={{ height: "52px", justifyContent: "space-between" }}
                 >
                   <div className="flex items-center gap-2">
-                    <Link
-                      href={`${baseUrl}/posts/users/${user._id}`}
-                    >
+                    <Link href={`${baseUrl}/posts/users/${user._id}`}>
                       <Avatar>
                         <AvatarImage
                           src={

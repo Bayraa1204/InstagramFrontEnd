@@ -39,35 +39,35 @@ export type postType = {
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
 
-  const useGetPostsData = async () => {
-    const [token, setToken] = useState<string | null>("");
-    useEffect(() => {
-      setToken(localStorage.getItem("accessToken"));
-    }, []);
-    if (!token) {
-      window.location.href = "/login";
-    }
-    const dataJson = await fetch(
-      "https://instagram-1-5x7q.onrender.com/post/getPost",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await dataJson.json();
-    setPosts(data);
-  };
-
   useEffect(() => {
-    useGetPostsData();
+    async () => {
+      const [token, setToken] = useState<string | null>("");
+      useEffect(() => {
+        setToken(localStorage.getItem("accessToken"));
+      }, []);
+      if (!token) {
+        window.location.href = "/login";
+      }
+      const dataJson = await fetch(
+        "https://instagram-1-5x7q.onrender.com/post/getPost",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await dataJson.json();
+      setPosts(data);
+    };
   }, []);
   const [baseUrl, setBaseUrl] = useState<string>("");
 
-  if (typeof window !== "undefined") {
-    setBaseUrl(window.location.origin);
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
   return (
     <div className="bg-black h-max flex-col justify-items-center items-center relative mb-[20px]">
       <h1 className=" text-[40px] text-white font-sans pt-6 p-6">Instagram</h1>

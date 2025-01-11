@@ -21,9 +21,11 @@ import { jwtDecode } from "jwt-decode";
 const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   const [baseUrl, setBaseUrl] = useState<string>("");
 
-  if (typeof window !== "undefined") {
-    setBaseUrl(window.location.origin);
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
   const { userId } = use(params);
   const decodedToken = jwtDecode<JwtPayLoad>(
     localStorage.getItem("accessToken") ?? ""

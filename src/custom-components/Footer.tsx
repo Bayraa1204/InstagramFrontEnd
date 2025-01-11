@@ -13,9 +13,11 @@ const IconFooter = () => {
   const decodedToken = jwtDecode<JwtPayLoad>(token ?? "");
   const [baseUrl, setBaseUrl] = useState<string>("");
 
-  if (typeof window !== "undefined") {
-    setBaseUrl(window.location.origin);
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
   return (
     <div
       className="flex w-screen h-10 border-gray-800 fixed bottom-0 left-0"

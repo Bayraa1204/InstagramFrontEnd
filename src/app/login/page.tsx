@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 
@@ -74,9 +74,11 @@ const Page = () => {
       setPasswordType("password");
     }
   };
-  if (typeof window !== "undefined") {
-    setBaseUrl(window.location.origin);
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
   return (
     <div className="w-[390px] h-screen bg-black flex justify-center items-center">
       <Card className="w-[320px] h-[443px] flex-row bg-black border-none">
