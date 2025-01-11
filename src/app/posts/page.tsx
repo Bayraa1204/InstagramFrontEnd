@@ -54,7 +54,6 @@ const Page = () => {
       const data = await dataJson.json();
       setPosts(data);
     } else {
-      window.location.href = "/login";
       console.log(token);
     }
   };
