@@ -44,20 +44,20 @@ const Page = () => {
   }, []);
 
   const getPostsData = async () => {
-    if (!token) {
-      window.location.href = "/login";
+    if (token) {
+      const dataJson = await fetch(
+        "https://instagram-1-5x7q.onrender.com/post/getPost",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await dataJson.json();
+      setPosts(data);
     }
-    const dataJson = await fetch(
-      "https://instagram-1-5x7q.onrender.com/post/getPost",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await dataJson.json();
-    setPosts(data);
+    window.location.href = "/login";
   };
 
   useEffect(() => {
