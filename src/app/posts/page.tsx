@@ -39,7 +39,7 @@ export type postType = {
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
 
-  const getPostsData = async () => {
+  const GetPostsData = async () => {
     const [token, setToken] = useState<string | null>("");
     useEffect(() => {
       setToken(localStorage.getItem("accessToken"));
@@ -61,7 +61,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    getPostsData();
+    GetPostsData();
   }, []);
   const [baseUrl, setBaseUrl] = useState<string>("");
 

@@ -25,7 +25,7 @@ export type postType = {
 const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const { postId } = use(params);
   const [postData, setPostData] = useState<postType>();
-  const getPostData = async () => {
+  const GetPostData = async () => {
     const [token, setToken] = useState<string | null>("");
     useEffect(() => {
       setToken(localStorage.getItem("accessToken"));
@@ -43,7 +43,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     setPostData(data);
   };
   useEffect(() => {
-    getPostData();
+    GetPostData();
   }, []);
   const [baseUrl, setBaseUrl] = useState<string>("");
 

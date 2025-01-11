@@ -32,7 +32,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
     window.location.href = `/profile/${userId}`;
   }
   const [userData, setUserData] = useState<userType>();
-  const getUserData = async () => {
+  const GetUserData = async () => {
     const token = localStorage.getItem("accessToken");
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/user/${userId}`,
@@ -47,7 +47,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
     setUserData(data);
   };
   useEffect(() => {
-    getUserData();
+    GetUserData();
   }, []);
   return (
     <Card className="border-none rounded-none bg-black relative h-screen">
@@ -130,8 +130,8 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
               <div className="text-[14px] font-bold">
                 <div>No Posts Yet</div>
                 <div className="text-left text-neutral-400">
-                  When {userData?.username} posts, you&apos;ll see their photos and
-                  videos here.
+                  When {userData?.username} posts, you&apos;ll see their photos
+                  and videos here.
                 </div>
               </div>
             </div>
