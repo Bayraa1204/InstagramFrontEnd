@@ -44,8 +44,7 @@ const Page = () => {
   }, []);
 
   const getPostsData = async () => {
-    console.log(token);
-    if (token && token !== undefined && token !== null) {
+    if (token) {
       const dataJson = await fetch(
         "https://instagram-1-5x7q.onrender.com/post/getPost",
         {
