@@ -14,18 +14,17 @@ type JwtPayLoad = {
   userId: string;
 };
 const IsLiked = ({
-  userId,
   likedPeopleData,
   postId,
 }: {
-  userId: string;
   likedPeopleData: likeType[] | undefined;
   postId: string;
 }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
-  const decodedToken = jwtDecode<JwtPayLoad>(userId);
+  const token = localStorage.getItem("accessToken") ?? "";
+  const decodedToken = jwtDecode<JwtPayLoad>(token);
   const checkIfLiked = async () => {
-    await likedPeopleData?.map((likedPeople) => {
+    likedPeopleData?.map((likedPeople) => {
       if (likedPeople._id == decodedToken.userId) {
         setIsLiked(true);
         console.log("liked");

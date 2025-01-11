@@ -12,11 +12,6 @@ const PostReactions = ({
   postId: string;
 }) => {
   const [baseUrl, setBaseUrl] = useState<string>("");
-  const [token, setToken] = useState<string | null>("");
-  useEffect(() => {
-    setToken(localStorage.getItem("accessToken"));
-  }, []);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       setBaseUrl(window.location.origin);
@@ -28,11 +23,7 @@ const PostReactions = ({
       style={{ justifyContent: "space-between" }}
     >
       <div className="h-[30px] flex gap-2 text-white">
-        <IsLiked
-          userId={token ?? ""}
-          likedPeopleData={postLike}
-          postId={postId}
-        />
+        <IsLiked likedPeopleData={postLike} postId={postId} />
         <Link
           href={`${baseUrl}/posts/comments/${postId}`}
           className="hover:text-slate-500 flex items-center"

@@ -38,6 +38,7 @@ export type postType = {
 }[];
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
+  const [baseUrl, setBaseUrl] = useState<string>("");
 
   const getPostsData = async () => {
     const token = localStorage.getItem("accessToken");
@@ -60,10 +61,6 @@ const Page = () => {
 
   useEffect(() => {
     getPostsData();
-  }, []);
-  const [baseUrl, setBaseUrl] = useState<string>("");
-
-  useEffect(() => {
     if (typeof window !== "undefined") {
       setBaseUrl(window.location.origin);
     }
