@@ -41,7 +41,7 @@ const Page = () => {
   const [token, setToken] = useState<string | null>("");
 
   const getPostsData = async () => {
-    if (token) {
+    if (token && token !== null) {
       const dataJson = await fetch(
         "https://instagram-1-5x7q.onrender.com/post/getPost",
         {
@@ -55,7 +55,7 @@ const Page = () => {
       setPosts(data);
     } else {
       window.location.href = "/login";
-      console.log("error No Valid Token")
+      console.log(token);
     }
   };
 
