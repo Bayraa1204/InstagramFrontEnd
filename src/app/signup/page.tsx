@@ -87,7 +87,11 @@ export default function Page() {
       setPasswordError(false);
     }
   };
-  const baseUrl = window.location.origin;
+  const [baseUrl, setBaseUrl] = useState<string>("");
+
+  if (typeof window !== "undefined") {
+    setBaseUrl(window.location.origin);
+  }
   return (
     <div className=" h-screen bg-black flex justify-center items-center">
       <Card className="  flex-row bg-black border-none">

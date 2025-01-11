@@ -19,7 +19,11 @@ import IconFooter from "@/custom-components/Footer";
 import { jwtDecode } from "jwt-decode";
 
 const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
-  const baseUrl = window.location.origin;
+  const [baseUrl, setBaseUrl] = useState<string>("");
+
+  if (typeof window !== "undefined") {
+    setBaseUrl(window.location.origin);
+  }
   const { userId } = use(params);
   const decodedToken = jwtDecode<JwtPayLoad>(
     localStorage.getItem("accessToken") ?? ""
@@ -126,8 +130,8 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
               <div className="text-[14px] font-bold">
                 <div>No Posts Yet</div>
                 <div className="text-left text-neutral-400">
-                  When {userData?.username} posts, you&apos;ll see their photos and
-                  videos here.
+                  When {userData?.username} posts, you&apos;ll see their photos
+                  and videos here.
                 </div>
               </div>
             </div>

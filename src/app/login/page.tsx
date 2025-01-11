@@ -13,11 +13,12 @@ import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 
-export default function Page() {
+const Page = () => {
   const [emailValue, setEmailValue] = useState<string>("");
   const [passwordValue, setPasswordValue] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [baseUrl, setBaseUrl] = useState<string>("");
 
   const [passwordType, setPasswordType] = useState<string>("password");
 
@@ -73,8 +74,9 @@ export default function Page() {
       setPasswordType("password");
     }
   };
-  const baseUrl = window.location.origin;
-
+  if (typeof window !== "undefined") {
+    setBaseUrl(window.location.origin);
+  }
   return (
     <div className="w-[390px] h-screen bg-black flex justify-center items-center">
       <Card className="w-[320px] h-[443px] flex-row bg-black border-none">
@@ -130,4 +132,5 @@ export default function Page() {
       </Card>
     </div>
   );
-}
+};
+export default Page;

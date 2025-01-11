@@ -1,5 +1,6 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
+import { useState } from "react";
 type userType = {
   _id: string;
   username: string;
@@ -19,7 +20,11 @@ const PostCommentSection = ({
   postComments: commentType[] | undefined;
   postId: string;
 }) => {
-  const baseUrl = window.location.origin;
+  const [baseUrl, setBaseUrl] = useState<string>("");
+
+  if (typeof window !== "undefined") {
+    setBaseUrl(window.location.origin);
+  }
   return (
     <div>
       {postComments?.slice(0, 1).map((comment) => {

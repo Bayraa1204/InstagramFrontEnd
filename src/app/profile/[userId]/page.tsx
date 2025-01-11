@@ -34,7 +34,11 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   useEffect(() => {
     getUserData();
   }, []);
-  const baseUrl = window.location.origin;
+  const [baseUrl, setBaseUrl] = useState<string>("");
+
+  if (typeof window !== "undefined") {
+    setBaseUrl(window.location.origin);
+  }
   return (
     <Card className="border-none rounded-none bg-black relative h-screen">
       <CardHeader className="gap-4 p-4 ">

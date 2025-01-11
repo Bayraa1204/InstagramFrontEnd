@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import { useState } from "react";
 
 const SeeFollowedPeoples = ({
   followedPeopleData,
@@ -19,7 +20,11 @@ const SeeFollowedPeoples = ({
   followersLength: number | undefined;
   isFollowing: boolean;
 }) => {
-  const baseUrl = window.location.origin;
+  const [baseUrl, setBaseUrl] = useState<string>("");
+
+  if (typeof window !== "undefined") {
+    setBaseUrl(window.location.origin);
+  }
   return (
     <Dialog>
       <DialogTrigger>

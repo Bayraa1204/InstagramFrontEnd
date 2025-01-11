@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Bookmark, MessageCircle, Send } from "lucide-react";
 import IsLiked from "./IsLikedHeartRed";
 import { userType } from "@/app/posts/page";
+import { useState } from "react";
 
 const PostReactions = ({
   postLike,
@@ -10,7 +11,11 @@ const PostReactions = ({
   postLike: userType[] | undefined;
   postId: string;
 }) => {
-  const baseUrl = window.location.origin;
+  const [baseUrl, setBaseUrl] = useState<string>("");
+
+  if (typeof window !== "undefined") {
+    setBaseUrl(window.location.origin);
+  }
   return (
     <div
       className="flex w-full text-white"

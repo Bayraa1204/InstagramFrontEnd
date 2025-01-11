@@ -42,7 +42,11 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   useEffect(() => {
     getPostData();
   }, []);
-  const baseUrl = window.location.origin;
+  const [baseUrl, setBaseUrl] = useState<string>("");
+
+  if (typeof window !== "undefined") {
+    setBaseUrl(window.location.origin);
+  }
   return (
     <div className="bg-black h-screen flex-col justify-items-center items-center relative">
       <Card className="bg-black border-gray-800 w-screen rounded-se-none">

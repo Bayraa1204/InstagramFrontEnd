@@ -60,7 +60,11 @@ const Page = () => {
   useEffect(() => {
     getPostsData();
   }, []);
-  const baseUrl = window.location.origin;
+  const [baseUrl, setBaseUrl] = useState<string>("");
+
+  if (typeof window !== "undefined") {
+    setBaseUrl(window.location.origin);
+  }
   return (
     <div className="bg-black h-max flex-col justify-items-center items-center relative mb-[20px]">
       <h1 className=" text-[40px] text-white font-sans pt-6 p-6">Instagram</h1>
