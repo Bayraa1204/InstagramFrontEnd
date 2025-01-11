@@ -6,7 +6,6 @@ import { JwtPayLoad } from "./HandleFollowButton";
 import { useEffect, useState } from "react";
 
 const IconFooter = () => {
-  const [token, setToken] = useState<string | null>("");
   const [decodedToken, setDecodedToken] = useState<JwtPayLoad>();
   const [baseUrl, setBaseUrl] = useState<string>("");
 
@@ -14,7 +13,7 @@ const IconFooter = () => {
     if (typeof window !== "undefined") {
       setBaseUrl(window.location.origin);
     }
-    setToken(localStorage.getItem("accessToken"));
+    const token = localStorage.getItem("accessToken");
     if (token) {
       setDecodedToken(jwtDecode<JwtPayLoad>(token ?? ""));
     }
