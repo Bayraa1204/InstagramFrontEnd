@@ -40,7 +40,10 @@ const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
 
   const getPostsData = async () => {
-    const token = localStorage.getItem("accessToken");
+    const [token, setToken] = useState<string | null>("");
+    useEffect(() => {
+      setToken(localStorage.getItem("accessToken"));
+    }, []);
     if (!token) {
       window.location.href = "/login";
     }

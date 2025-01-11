@@ -45,7 +45,10 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     setComments(data.comments);
   };
   const checkComment = async () => {
-    const token = localStorage.getItem("accessToken");
+    const [token, setToken] = useState<string | null>("");
+    useEffect(() => {
+      setToken(localStorage.getItem("accessToken"));
+    }, []);
     if (commentValue.length == 0) {
       setCommentValue("");
       console.log("hooson");

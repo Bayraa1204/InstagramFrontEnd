@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Bookmark, MessageCircle, Send } from "lucide-react";
 import IsLiked from "./IsLikedHeartRed";
 import { userType } from "@/app/posts/page";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const PostReactions = ({
   postLike,
@@ -12,6 +12,10 @@ const PostReactions = ({
   postId: string;
 }) => {
   const [baseUrl, setBaseUrl] = useState<string>("");
+  const [token, setToken] = useState<string | null>("");
+  useEffect(() => {
+    setToken(localStorage.getItem("accessToken"));
+  }, []);
 
   if (typeof window !== "undefined") {
     setBaseUrl(window.location.origin);
@@ -23,7 +27,7 @@ const PostReactions = ({
     >
       <div className="h-[30px] flex gap-2 text-white">
         <IsLiked
-          userId={localStorage.getItem("accessToken") ?? ""}
+          userId={token ?? ""}
           likedPeopleData={postLike}
           postId={postId}
         />

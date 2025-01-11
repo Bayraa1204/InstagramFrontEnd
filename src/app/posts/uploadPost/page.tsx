@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import IconFooter from "@/custom-components/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Page = () => {
   const [images, setImages] = useState<FileList | null>(null);
@@ -18,6 +18,10 @@ const Page = () => {
   const [imageError, setImageError] = useState<boolean>(false);
   const [captionError, setCaptionError] = useState<boolean>(false);
   const [posted, setPosted] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>("");
+  useEffect(() => {
+    setToken(localStorage.getItem("accessToken"));
+  }, []);
 
   const HandleCaption = (e: { target: { value: string } }) => {
     setCaption(e.target.value);
@@ -54,8 +58,6 @@ const Page = () => {
 
         const uploadedUrls = await Promise.all(uploadPromises);
         if (uploadedUrls) {
-
-          const token = localStorage.getItem("accessToken");
           await fetch("https://instagram-1-5x7q.onrender.com/post/createPost", {
             headers: {
               Authorization: `Bearer ${token}`,

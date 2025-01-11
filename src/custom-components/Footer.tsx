@@ -3,10 +3,13 @@ import { jwtDecode } from "jwt-decode";
 import { BadgePlus, CircleUser, House, Search } from "lucide-react";
 import Link from "next/link";
 import { JwtPayLoad } from "./HandleFollowButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const IconFooter = () => {
-  const token = localStorage.getItem("accessToken");
+  const [token, setToken] = useState<string | null>("");
+  useEffect(() => {
+    setToken(localStorage.getItem("accessToken"));
+  }, []);
   const decodedToken = jwtDecode<JwtPayLoad>(token ?? "");
   const [baseUrl, setBaseUrl] = useState<string>("");
 

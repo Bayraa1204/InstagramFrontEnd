@@ -18,7 +18,10 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = use(params);
   const [userData, setUserData] = useState<userType>();
   const getUserData = async () => {
-    const token = localStorage.getItem("accessToken");
+    const [token, setToken] = useState<string | null>("");
+    useEffect(() => {
+      setToken(localStorage.getItem("accessToken"));
+    }, []);
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/user/${userId}`,
       {

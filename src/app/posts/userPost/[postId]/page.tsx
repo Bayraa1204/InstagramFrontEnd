@@ -26,7 +26,10 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const { postId } = use(params);
   const [postData, setPostData] = useState<postType>();
   const getPostData = async () => {
-    const token = localStorage.getItem("accessToken");
+    const [token, setToken] = useState<string | null>("");
+    useEffect(() => {
+      setToken(localStorage.getItem("accessToken"));
+    }, []);
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/post/getOnlyOnePost/${postId}`,
       {
