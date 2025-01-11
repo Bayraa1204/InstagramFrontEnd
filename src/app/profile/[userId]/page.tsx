@@ -17,11 +17,11 @@ import { use, useEffect, useState } from "react";
 const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = use(params);
   const [userData, setUserData] = useState<userType>();
-  const useGetUserData = async () => {
-    const [token, setToken] = useState<string | null>("");
-    useEffect(() => {
-      setToken(localStorage.getItem("accessToken"));
-    }, []);
+  const [token, setToken] = useState<string | null>("");
+  useEffect(() => {
+    setToken(localStorage.getItem("accessToken"));
+  }, []);
+  const getUserData = async () => {
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/user/${userId}`,
       {
@@ -35,7 +35,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
     setUserData(data);
   };
   useEffect(() => {
-    useGetUserData();
+    getUserData();
   }, []);
   const [baseUrl, setBaseUrl] = useState<string>("");
 
