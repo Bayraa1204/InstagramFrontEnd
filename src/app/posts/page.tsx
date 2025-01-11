@@ -38,28 +38,30 @@ export type postType = {
 }[];
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
+  const [token, setToken] = useState<string | null>("");
+  useEffect(() => {
+    setToken(localStorage.getItem("accessToken"));
+  }, []);
+
+  const getPostsData = async () => {
+    if (!token) {
+      window.location.href = "/login";
+    }
+    const dataJson = await fetch(
+      "https://instagram-1-5x7q.onrender.com/post/getPost",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await dataJson.json();
+    setPosts(data);
+  };
 
   useEffect(() => {
-    async () => {
-      const [token, setToken] = useState<string | null>("");
-      useEffect(() => {
-        setToken(localStorage.getItem("accessToken"));
-      }, []);
-      if (!token) {
-        window.location.href = "/login";
-      }
-      const dataJson = await fetch(
-        "https://instagram-1-5x7q.onrender.com/post/getPost",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await dataJson.json();
-      setPosts(data);
-    };
+    getPostsData();
   }, []);
   const [baseUrl, setBaseUrl] = useState<string>("");
 

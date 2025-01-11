@@ -25,11 +25,11 @@ export type postType = {
 const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const { postId } = use(params);
   const [postData, setPostData] = useState<postType>();
-  const useGetPostData = async () => {
-    const [token, setToken] = useState<string | null>("");
-    useEffect(() => {
-      setToken(localStorage.getItem("accessToken"));
-    }, []);
+  const [token, setToken] = useState<string | null>("");
+  useEffect(() => {
+    setToken(localStorage.getItem("accessToken"));
+  }, []);
+  const getPostData = async () => {
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/post/getOnlyOnePost/${postId}`,
       {
@@ -43,7 +43,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     setPostData(data);
   };
   useEffect(() => {
-    useGetPostData();
+    getPostData();
   }, []);
   const [baseUrl, setBaseUrl] = useState<string>("");
 

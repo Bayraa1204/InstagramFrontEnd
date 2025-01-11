@@ -30,7 +30,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const [comments, setComments] = useState<commentType>([]);
   const [commentValue, setCommentValue] = useState<string>("");
 
-  const useGetPostsData = async () => {
+  const getPostsData = async () => {
     const token = localStorage.getItem("accessToken");
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/post/${postId}`,
@@ -44,14 +44,13 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     const data = await dataJson.json();
     setComments(data.comments);
   };
-  const useCheckComment = async () => {
-    const [token, setToken] = useState<string | null>("");
-    useEffect(() => {
-      setToken(localStorage.getItem("accessToken"));
-    }, []);
+  const [token, setToken] = useState<string | null>("");
+  useEffect(() => {
+    setToken(localStorage.getItem("accessToken"));
+  }, []);
+  const checkComment = async () => {
     if (commentValue.length == 0) {
       setCommentValue("");
-      console.log("hooson");
     } else {
       await fetch(`https://instagram-1-5x7q.onrender.com/createComment`, {
         headers: {
@@ -71,7 +70,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     setCommentValue(e.target.value);
   };
   useEffect(() => {
-    useGetPostsData();
+    getPostsData();
   }, []);
   return (
     <Card className="flex-col h-screen w-screen bg-black border-none rounded-none">
@@ -112,7 +111,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
           placeholder="Write a comment.."
         />
         {commentValue.length !== 0 ? (
-          <Button className="hover:text-slate-600" onClick={useCheckComment}>
+          <Button className="hover:text-slate-600" onClick={checkComment}>
             Post
           </Button>
         ) : null}
