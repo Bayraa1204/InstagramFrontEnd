@@ -38,10 +38,9 @@ export type postType = {
 }[];
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
-  const [token, setToken] = useState<string | null>("");
 
   const getPostsData = async () => {
-    setToken(localStorage.getItem("accessToken"));
+    const token = localStorage.getItem("accessToken");
     if (token && token !== null) {
       const dataJson = await fetch(
         "https://instagram-1-5x7q.onrender.com/post/getPost",
