@@ -39,9 +39,6 @@ export type postType = {
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
   const [token, setToken] = useState<string | null>("");
-  useEffect(() => {
-    setToken(localStorage.getItem("accessToken"));
-  }, []);
 
   const getPostsData = async () => {
     if (token) {
@@ -58,11 +55,13 @@ const Page = () => {
       setPosts(data);
     } else {
       window.location.href = "/login";
+      console.log("error No Valid Token")
     }
   };
 
   useEffect(() => {
     getPostsData();
+    setToken(localStorage.getItem("accessToken"));
   }, []);
   const [baseUrl, setBaseUrl] = useState<string>("");
 
