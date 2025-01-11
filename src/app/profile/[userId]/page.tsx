@@ -17,11 +17,9 @@ import { use, useEffect, useState } from "react";
 const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = use(params);
   const [userData, setUserData] = useState<userType>();
-  const [token, setToken] = useState<string | null>("");
-  useEffect(() => {
-    setToken(localStorage.getItem("accessToken"));
-  }, []);
+  const [baseUrl, setBaseUrl] = useState<string>("");
   const getUserData = async () => {
+    const token = localStorage.getItem("accessToken");
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/user/${userId}`,
       {
@@ -36,10 +34,6 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   };
   useEffect(() => {
     getUserData();
-  }, []);
-  const [baseUrl, setBaseUrl] = useState<string>("");
-
-  useEffect(() => {
     if (typeof window !== "undefined") {
       setBaseUrl(window.location.origin);
     }
@@ -66,7 +60,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
           </div>
         </CardTitle>
         <CardDescription className="text-left text-white font-bold flex-col">
-          <div>{userData?.email.split("@")[0]}</div>
+          <div>{userData?.email?.split("@")[0]}</div>
           <div className="flex items-center h-[26px] bg-neutral-700 rounded-xl w-fit p-2 text-[12px] gap-1 mt-2 mb-2">
             <AtSign className="h-[17px] w-[17px]" />
             {userData?.username}
@@ -77,20 +71,20 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
       <CardContent className="p-0">
         <div className="border-t-neutral-700 border-t-[1px] text-gray-400 flex text-[14px] pb-3 pt-3">
           <div className="flex-col w-[33%] text-center">
-            <p className="text-white font-bold">{userData?.posts.length}</p>{" "}
+            <p className="text-white font-bold">{userData?.posts?.length}</p>{" "}
             posts
           </div>
           <div className="flex-col w-[33%] text-center">
             <SeeFollowedPeoples
               followedPeopleData={userData?.followers}
-              followersLength={userData?.followers.length}
+              followersLength={userData?.followers?.length}
               isFollowing={false}
             />
           </div>
           <div className="flex-col w-[33%] text-center">
             <SeeFollowedPeoples
               followedPeopleData={userData?.following}
-              followersLength={userData?.following.length}
+              followersLength={userData?.following?.length}
               isFollowing={true}
             />
           </div>
@@ -99,9 +93,9 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
           <Grid3x3 />
         </div>
         <div className="flex-wrap flex gap-[1.5px]">
-          {userData?.posts.length !== undefined &&
-          userData?.posts.length > 0 ? (
-            userData?.posts.map((post) => {
+          {userData?.posts?.length !== undefined &&
+          userData?.posts?.length > 0 ? (
+            userData?.posts?.map((post) => {
               return (
                 <Link
                   key={post._id}
