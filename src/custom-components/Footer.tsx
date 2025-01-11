@@ -7,15 +7,16 @@ import { useEffect, useState } from "react";
 
 const IconFooter = () => {
   const [token, setToken] = useState<string | null>("");
-  useEffect(() => {
-    setToken(localStorage.getItem("accessToken"));
-  }, []);
-  const decodedToken = jwtDecode<JwtPayLoad>(token ?? "");
+  const [decodedToken, setDecodedToken] = useState<JwtPayLoad>();
   const [baseUrl, setBaseUrl] = useState<string>("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setBaseUrl(window.location.origin);
+    }
+    setToken(localStorage.getItem("accessToken"));
+    if (token) {
+      setDecodedToken(jwtDecode<JwtPayLoad>(token ?? ""));
     }
   }, []);
   return (
@@ -45,7 +46,7 @@ const IconFooter = () => {
         <House className="text-white h-full" />
       </Link>
       <Link
-        href={`${baseUrl}/profile/${decodedToken.userId}`}
+        href={`${baseUrl}/profile/${decodedToken?.userId}`}
         className=" bg-black flex justify-center h-full rounded-none"
         style={{ width: "25%" }}
       >

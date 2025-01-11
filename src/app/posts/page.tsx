@@ -44,7 +44,8 @@ const Page = () => {
   }, []);
 
   const getPostsData = async () => {
-    if (token) {
+    console.log(token);
+    if (token && token !== undefined && token !== null) {
       const dataJson = await fetch(
         "https://instagram-1-5x7q.onrender.com/post/getPost",
         {
@@ -56,8 +57,9 @@ const Page = () => {
       );
       const data = await dataJson.json();
       setPosts(data);
+    } else {
+      window.location.href = "/login";
     }
-    window.location.href = "/login";
   };
 
   useEffect(() => {
