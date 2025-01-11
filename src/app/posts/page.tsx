@@ -41,6 +41,7 @@ const Page = () => {
   const [token, setToken] = useState<string | null>("");
 
   const getPostsData = async () => {
+    setToken(localStorage.getItem("accessToken"));
     if (token && token !== null) {
       const dataJson = await fetch(
         "https://instagram-1-5x7q.onrender.com/post/getPost",
@@ -60,7 +61,6 @@ const Page = () => {
 
   useEffect(() => {
     getPostsData();
-    setToken(localStorage.getItem("accessToken"));
   }, []);
   const [baseUrl, setBaseUrl] = useState<string>("");
 
