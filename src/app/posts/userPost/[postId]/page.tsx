@@ -25,11 +25,8 @@ export type postType = {
 const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const { postId } = use(params);
   const [postData, setPostData] = useState<postType>();
-  const [token, setToken] = useState<string | null>("");
-  useEffect(() => {
-    setToken(localStorage.getItem("accessToken"));
-  }, []);
   const getPostData = async () => {
+    const token = localStorage.getItem("accessToken")
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/post/getOnlyOnePost/${postId}`,
       {
@@ -56,13 +53,13 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     <div className="bg-black h-screen flex-col justify-items-center items-center relative">
       <Card className="bg-black border-gray-800 w-screen rounded-se-none">
         <div className="flex mt-4 items-center gap-3 p-6 pt-0 text-white">
-          <Link href={`${baseUrl}/posts/users/${postData?.userId._id}`}>
+          <Link href={`${baseUrl}/posts/users/${postData?.userId?._id}`}>
             <Avatar>
-              <AvatarImage src={postData?.userId.profileImg} />
+              <AvatarImage src={postData?.userId?.profileImg} />
             </Avatar>
           </Link>
-          <Link href={`${baseUrl}/posts/users/${postData?.userId._id}`}>
-            {postData?.userId.username}
+          <Link href={`${baseUrl}/posts/users/${postData?.userId?._id}`}>
+            {postData?.userId?.username}
           </Link>
         </div>
         <CardContent className="flex-col items-center justify-center w=[340px] h-[340px] mb-4">
