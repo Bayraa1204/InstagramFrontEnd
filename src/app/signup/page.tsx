@@ -95,13 +95,13 @@ export default function Page() {
     }
   }, []);
   return (
-    <div className=" h-screen bg-black flex justify-center items-center">
-      <Card className="  flex-row bg-black border-none">
+    <div className="h-screen bg-black flex justify-center items-center">
+      <Card className="w-[80%] flex-row bg-black border-none">
         <CardHeader>
           <CardTitle className="flex  text-white justify-center text-[30px]">
             Instagram
           </CardTitle>
-          <CardDescription className=" font-bold w-[270px] text-center text-gray-400 text-[16px]">
+          <CardDescription className="font-bold text-center text-gray-400 text-[16px]">
             Sign up to see photos and videos from your friends.
           </CardDescription>
         </CardHeader>

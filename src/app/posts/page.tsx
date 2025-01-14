@@ -12,7 +12,6 @@ import PostCommentSection from "@/custom-components/PostCommentSection";
 import SeeLikedPeoples from "@/custom-components/SeeLikedPeoples";
 import Link from "next/link";
 import IconFooter from "@/custom-components/Footer";
-import Image from "next/image";
 
 export type userType = {
   _id: string;

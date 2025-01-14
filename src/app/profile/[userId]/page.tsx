@@ -11,7 +11,6 @@ import {
 import IconFooter from "@/custom-components/Footer";
 import SeeFollowedPeoples from "@/custom-components/SeeFollowedPeoples";
 import { AtSign, Grid3x3, Instagram } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 
