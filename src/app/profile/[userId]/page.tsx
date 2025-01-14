@@ -102,7 +102,11 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
                   href={`${baseUrl}/posts/userPost/${post._id}`}
                   className="w-[33%] mb-[1.5px]"
                 >
-                  <img alt="post image" className="aspect-square" src={post.postImg[0]} />
+                  <img
+                    alt="post image"
+                    className="aspect-square"
+                    src={post.postImg[0]}
+                  />
                 </Link>
               );
             })
@@ -119,9 +123,11 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
               <div className="text-center text-[14px]">
                 When you share photos they will appear on your profile
               </div>
-              <div className="font-bold text-blue-500">
-                Share your first photo
-              </div>
+              <Link href={`${baseUrl}/posts/uploadPost`}>
+                <div className="font-bold text-blue-500">
+                  Share your first photo
+                </div>
+              </Link>
             </div>
           )}
         </div>

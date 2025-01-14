@@ -12,6 +12,7 @@ import PostCommentSection from "@/custom-components/PostCommentSection";
 import SeeLikedPeoples from "@/custom-components/SeeLikedPeoples";
 import Link from "next/link";
 import IconFooter from "@/custom-components/Footer";
+import Setting from "@/custom-components/Settings";
 
 export type userType = {
   _id: string;
@@ -67,55 +68,60 @@ const Page = () => {
   }, []);
   return (
     <div className="bg-black h-max flex-col justify-items-center items-center relative mb-[20px]">
-      <h1 className=" text-[40px] text-white font-sans pt-6 p-6">Instagram</h1>
-      {posts?.map((post, index) => {
-        return (
-          <Card
-            className="bg-black border-gray-800 w-screen rounded-none"
-            key={index}
-          >
-            <div className="flex mt-4 items-center gap-3 p-6 pt-0 text-white">
-              <Link href={`${baseUrl}/posts/users/${post.userId._id}`}>
-                <Avatar>
-                  <AvatarImage src={post.userId.profileImg} />
-                </Avatar>
-              </Link>
+      <Setting />
+      <h1 className="fixed z-40 top-0 text-center bg-black text-[40px] text-white font-sans pt-6 p-6 w-screen">
+        Instagram
+      </h1>
+      <div className="mt-[108px]">
+        {posts?.map((post, index) => {
+          return (
+            <Card
+              className="bg-black border-gray-800 w-screen rounded-none"
+              key={index}
+            >
+              <div className="flex mt-4 items-center gap-3 p-6 pt-0 text-white">
+                <Link href={`${baseUrl}/posts/users/${post.userId._id}`}>
+                  <Avatar>
+                    <AvatarImage src={post.userId.profileImg} />
+                  </Avatar>
+                </Link>
 
-              <Link href={`${baseUrl}/posts/users/${post.userId._id}`}>
-                {post.userId.username}
-              </Link>
-            </div>
-            <CardContent className="flex-col items-center justify-center w=[340px] h-[340px] mb-4">
-              <Carousel>
-                <CarouselContent>
-                  {post.postImg.map((img, index) => {
-                    return (
-                      <CarouselItem
-                        key={index}
-                        className="flex justify-center w=[340px] h-[340px]"
-                      >
-                        <img alt="Post Image" src={img} />
-                      </CarouselItem>
-                    );
-                  })}
-                </CarouselContent>
-              </Carousel>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2">
-              <div className="flex items-center gap-1 text-white text-[15px]">
-                <div className="font-bold">{post.userId.username}</div>
-                <div>{post.caption}</div>
+                <Link href={`${baseUrl}/posts/users/${post.userId._id}`}>
+                  {post.userId.username}
+                </Link>
               </div>
-              <PostReactions postLike={post.like} postId={post._id} />
-              <SeeLikedPeoples likedPeopleData={post.like} />
-              <PostCommentSection
-                postComments={post.comments}
-                postId={post._id}
-              />
-            </CardFooter>
-          </Card>
-        );
-      })}
+              <CardContent className="flex-col items-center justify-center w=[340px] h-[340px] mb-4">
+                <Carousel>
+                  <CarouselContent>
+                    {post.postImg.map((img, index) => {
+                      return (
+                        <CarouselItem
+                          key={index}
+                          className="flex justify-center w=[340px] h-[340px]"
+                        >
+                          <img alt="Post Image" src={img} />
+                        </CarouselItem>
+                      );
+                    })}
+                  </CarouselContent>
+                </Carousel>
+              </CardContent>
+              <CardFooter className="flex-col items-start gap-2">
+                <div className="flex items-center gap-1 text-white text-[15px]">
+                  <div className="font-bold">{post.userId.username}</div>
+                  <div>{post.caption}</div>
+                </div>
+                <PostReactions postLike={post.like} postId={post._id} />
+                <SeeLikedPeoples likedPeopleData={post.like} />
+                <PostCommentSection
+                  postComments={post.comments}
+                  postId={post._id}
+                />
+              </CardFooter>
+            </Card>
+          );
+        })}
+      </div>
       <IconFooter />
     </div>
   );

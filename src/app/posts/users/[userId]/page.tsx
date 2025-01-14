@@ -103,7 +103,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
         <div className="h-[44px] flex justify-center items-center text-blue-500 border-t-2">
           <Grid3x3 />
         </div>
-        <div className="flex-wrap flex justify-between">
+        <div className="flex-wrap flex gap-[1.5px]">
           {userData?.posts.length !== undefined &&
           userData?.posts.length > 0 ? (
             userData?.posts.map((post) => {
@@ -111,9 +111,13 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
                 <Link
                   key={post._id}
                   href={`${baseUrl}/posts/userPost/${post._id}`}
-                  className="w-[33%] mb-1"
+                  className="w-[33%] mb-[1.5px]"
                 >
-                  <img alt="Image" className="aspect-square" src={post.postImg[0]} />
+                  <img
+                    alt="Image"
+                    className="aspect-square"
+                    src={post.postImg[0]}
+                  />
                 </Link>
               );
             })

@@ -21,6 +21,7 @@ const Page = () => {
   const [baseUrl, setBaseUrl] = useState<string>("");
 
   const [passwordType, setPasswordType] = useState<string>("password");
+  const [count, setCount] = useState<number>(0);
 
   const HandleUserName = (e: { target: { value: string } }) => {
     setEmailValue(e.target.value);
@@ -29,10 +30,27 @@ const Page = () => {
     setPasswordValue(e.target.value);
   };
 
-  const loginButtonClicked = () => {
-    checkUserName();
-    checkPassword();
-    if (!emailError && !passwordError) {
+  const checkUserName = () => {
+    if (emailValue.length == 0 || emailValue[0] == " ") {
+      setEmailError(true);
+      setCount(count + 1);
+    } else {
+      setEmailError(false);
+      setCount(count + 1);
+    }
+  };
+  const checkPassword = () => {
+    if (passwordValue.length == 0 || passwordValue[0] == " ") {
+      setPasswordError(true);
+      setCount(count + 1);
+    } else {
+      setPasswordError(false);
+      setCount(count + 1);
+    }
+  };
+  const fetchLogin = () => {
+    if (!passwordError && !emailError) {
+      console.log(count);
       fetch(`https://instagram-1-5x7q.onrender.com/user/logIn`, {
         method: "POST",
         headers: {
@@ -47,24 +65,11 @@ const Page = () => {
         .then((data) => {
           setEmailValue("");
           setPasswordValue("");
-          const access = data.token;
-          localStorage.setItem("accessToken", access);
+          localStorage.setItem("accessToken", data.token);
         })
         .then(() => (window.location.href = "/posts"));
-    }
-  };
-  const checkUserName = () => {
-    if (emailValue.length == 0 || emailValue[0] == " ") {
-      setEmailError(true);
     } else {
-      setEmailError(false);
-    }
-  };
-  const checkPassword = () => {
-    if (passwordValue.length == 0 || passwordValue[0] == " ") {
-      setPasswordError(true);
-    } else {
-      setPasswordError(false);
+      setCount(0);
     }
   };
   const checkBox = () => {
@@ -74,14 +79,21 @@ const Page = () => {
       setPasswordType("password");
     }
   };
+  const loginButtonClicked = () => {
+    checkUserName();
+    checkPassword();
+    if (count == 2) {
+      fetchLogin();
+    }
+  };
   useEffect(() => {
     if (typeof window !== "undefined") {
       setBaseUrl(window.location.origin);
     }
   }, []);
   return (
-    <div className="w-[390px] h-screen bg-black flex justify-center items-center">
-      <Card className="w-[320px] h-[443px] flex-row bg-black border-none">
+    <div className="h-screen bg-black flex justify-center items-center">
+      <Card className="w-[320px]  flex-row bg-black border-none">
         <CardHeader>
           <CardTitle className="flex w-[270px] text-white justify-center text-[30px]">
             Instagram

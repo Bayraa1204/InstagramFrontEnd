@@ -21,6 +21,7 @@ export default function Page() {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
 
+  const [baseUrl, setBaseUrl] = useState<string>("");
   const [count, setCount] = useState<number>(0);
 
   const HandleUserName = (e: { target: { value: string } }) => {
@@ -37,6 +38,11 @@ export default function Page() {
     checkUserName();
     checkEmail();
     checkPassword();
+    if (count == 3) {
+      fetchLogin();
+    }
+  };
+  const fetchLogin = () => {
     if (!userNameError && !emailError && !passwordError) {
       fetch(`https://instagram-1-5x7q.onrender.com/user/signUp`, {
         method: "POST",
@@ -54,40 +60,45 @@ export default function Page() {
           setEmailValue("");
           setPasswordValue("");
           setUserNameValue("");
-          const access = data.token;
-          localStorage.setItem("accessToken", access);
+          localStorage.setItem("accessToken", data.token);
         })
         .then(() => (window.location.href = "/posts"));
+    } else {
+      setCount(0);
     }
   };
   const checkUserName = () => {
     if (userNameValue.length == 0 || userNameValue.includes(" ")) {
       setUserNameError(true);
-    } else {
       setCount(count + 1);
+    } else {
       setUserNameError(false);
+      setCount(count + 1);
     }
   };
   const checkEmail = () => {
     if (emailValue.length == 0 || emailValue.includes(" ")) {
       setEmailError(true);
+      setCount(count + 1);
     } else {
       if (emailValue.includes("@")) {
-        setCount(count + 1);
         setEmailError(false);
+        setCount(count + 1);
       } else {
         setEmailError(true);
+        setCount(count + 1);
       }
     }
   };
   const checkPassword = () => {
     if (passwordValue.length == 0 || passwordValue.includes(" ")) {
       setPasswordError(true);
+      setCount(count + 1);
     } else {
       setPasswordError(false);
+      setCount(count + 1);
     }
   };
-  const [baseUrl, setBaseUrl] = useState<string>("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -137,7 +148,7 @@ export default function Page() {
         <CardFooter className="flex-col gap-[40px]">
           <Button
             onClick={signupButtonClicked}
-            className="bg-sky-700 font-bold w-[270px] h-[32px]"
+            className="bg-sky-700 font-bold w-full"
           >
             Sign up
           </Button>
