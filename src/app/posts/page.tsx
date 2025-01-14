@@ -12,6 +12,7 @@ import PostCommentSection from "@/custom-components/PostCommentSection";
 import SeeLikedPeoples from "@/custom-components/SeeLikedPeoples";
 import Link from "next/link";
 import IconFooter from "@/custom-components/Footer";
+import Image from "next/image";
 
 export type userType = {
   _id: string;
@@ -94,7 +95,7 @@ const Page = () => {
                         key={index}
                         className="flex justify-center w=[340px] h-[340px]"
                       >
-                        <img src={img} />
+                        <img alt="Post Image" src={img} />
                       </CarouselItem>
                     );
                   })}

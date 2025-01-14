@@ -11,6 +11,7 @@ import {
 import IconFooter from "@/custom-components/Footer";
 import SeeFollowedPeoples from "@/custom-components/SeeFollowedPeoples";
 import { AtSign, Grid3x3, Instagram } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 
@@ -102,7 +103,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
                   href={`${baseUrl}/posts/userPost/${post._id}`}
                   className="w-[33%] mb-[1.5px]"
                 >
-                  <img className="aspect-square" src={post.postImg[0]} />
+                  <img alt="post image" className="aspect-square" src={post.postImg[0]} />
                 </Link>
               );
             })

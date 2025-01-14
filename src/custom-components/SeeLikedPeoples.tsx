@@ -18,13 +18,10 @@ const SeeLikedPeoples = ({
   likedPeopleData: userType[] | undefined;
 }) => {
   const [likedNum, setLikedNum] = useState<number>();
-  const CheckLike = () => {
-    setLikedNum(likedPeopleData?.length);
-  };
-  useEffect(() => {
-    CheckLike();
-  }, [likedPeopleData]);
   const [baseUrl, setBaseUrl] = useState<string>("");
+  useEffect(() => {
+    setLikedNum(likedPeopleData?.length);
+  }, [likedPeopleData]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {

@@ -23,11 +23,10 @@ const IsLiked = ({
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const token = localStorage.getItem("accessToken") ?? "";
   const decodedToken = jwtDecode<JwtPayLoad>(token);
-  const checkIfLiked = async () => {
+  const checkIfLiked = () => {
     likedPeopleData?.map((likedPeople) => {
       if (likedPeople._id == decodedToken.userId) {
         setIsLiked(true);
-        console.log("liked");
       }
     });
   };

@@ -15,7 +15,7 @@ const FollowButton = ({ userData }: { userData: userType | undefined }) => {
   const decodedToken = jwtDecode<JwtPayLoad>(
     localStorage.getItem("accessToken") ?? ""
   );
-  const CheckIfFollowed = async () => {
+  const CheckIfFollowed = () => {
     userData?.followers?.map((followedUser) => {
       if (followedUser._id == decodedToken.userId) {
         setIsFollowed(true);

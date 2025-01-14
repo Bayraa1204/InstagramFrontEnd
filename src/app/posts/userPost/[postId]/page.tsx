@@ -17,7 +17,7 @@ import IconFooter from "@/custom-components/Footer";
 export type postType = {
   _id: string;
   caption: string;
-  postImg: string;
+  postImg: string[];
   userId: userType;
   like: userType[];
   comments: commentType;
@@ -25,8 +25,9 @@ export type postType = {
 const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const { postId } = use(params);
   const [postData, setPostData] = useState<postType>();
+  const [baseUrl, setBaseUrl] = useState<string>("");
   const getPostData = async () => {
-    const token = localStorage.getItem("accessToken")
+    const token = localStorage.getItem("accessToken");
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/post/getOnlyOnePost/${postId}`,
       {
@@ -41,10 +42,6 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   };
   useEffect(() => {
     getPostData();
-  }, []);
-  const [baseUrl, setBaseUrl] = useState<string>("");
-
-  useEffect(() => {
     if (typeof window !== "undefined") {
       setBaseUrl(window.location.origin);
     }
@@ -65,12 +62,16 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
         <CardContent className="flex-col items-center justify-center w=[340px] h-[340px] mb-4">
           <Carousel>
             <CarouselContent>
-              <CarouselItem className="flex justify-center w=[340px] h-[340px]">
-                <img src={postData?.postImg} />
-              </CarouselItem>
-              <CarouselItem className="flex justify-center w=[340px] h-[340px]">
-                <img src={postData?.postImg} />
-              </CarouselItem>
+              {postData?.postImg?.map((img, index) => {
+                return (
+                  <CarouselItem
+                    key={index}
+                    className="flex justify-center w=[340px] h-[340px]"
+                  >
+                    <img alt="Post Image" src={img} />
+                  </CarouselItem>
+                );
+              })}
             </CarouselContent>
           </Carousel>
         </CardContent>

@@ -29,6 +29,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
   const { postId } = use(params);
   const [comments, setComments] = useState<commentType>([]);
   const [commentValue, setCommentValue] = useState<string>("");
+  const [token, setToken] = useState<string | null>("");
 
   const getPostsData = async () => {
     const token = localStorage.getItem("accessToken");
@@ -44,10 +45,6 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     const data = await dataJson.json();
     setComments(data.comments);
   };
-  const [token, setToken] = useState<string | null>("");
-  useEffect(() => {
-    setToken(localStorage.getItem("accessToken"));
-  }, []);
   const checkComment = async () => {
     if (commentValue.length == 0) {
       setCommentValue("");
@@ -70,6 +67,7 @@ const Page = ({ params }: { params: Promise<{ postId: string }> }) => {
     setCommentValue(e.target.value);
   };
   useEffect(() => {
+    setToken(localStorage.getItem("accessToken"));
     getPostsData();
   }, []);
   return (

@@ -20,12 +20,6 @@ import { jwtDecode } from "jwt-decode";
 
 const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   const [baseUrl, setBaseUrl] = useState<string>("");
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setBaseUrl(window.location.origin);
-    }
-  }, []);
   const { userId } = use(params);
   const decodedToken = jwtDecode<JwtPayLoad>(
     localStorage.getItem("accessToken") ?? ""
@@ -34,7 +28,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
     window.location.href = `/profile/${userId}`;
   }
   const [userData, setUserData] = useState<userType>();
-  const GetUserData = async () => {
+  const getUserData = async () => {
     const token = localStorage.getItem("accessToken");
     const dataJson = await fetch(
       `https://instagram-1-5x7q.onrender.com/user/${userId}`,
@@ -49,7 +43,10 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
     setUserData(data);
   };
   useEffect(() => {
-    GetUserData();
+    getUserData();
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
   }, []);
   return (
     <Card className="border-none rounded-none bg-black relative h-screen">
@@ -116,7 +113,7 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
                   href={`${baseUrl}/posts/userPost/${post._id}`}
                   className="w-[33%] mb-1"
                 >
-                  <img className="aspect-square" src={post.postImg[0]} />
+                  <img alt="Image" className="aspect-square" src={post.postImg[0]} />
                 </Link>
               );
             })
