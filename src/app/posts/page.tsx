@@ -69,7 +69,7 @@ const Page = () => {
   return (
     <div className="bg-black h-max flex-col justify-items-center items-center relative mb-[20px]">
       <Setting />
-      <h1 className="fixed z-40 top-0 text-center bg-black text-[40px] text-white font-sans pt-6 p-6 w-screen">
+      <h1 className="fixed z-40 top-0 left-0 text-center bg-black text-[40px] text-white font-sans pt-6 p-6 w-screen">
         Instagram
       </h1>
       <div className="mt-[108px]">
